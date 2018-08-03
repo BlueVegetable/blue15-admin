@@ -1,15 +1,2 @@
-#X-admin
+# å°ç¨‹åºåŽå°ç®¡ç†
 
-## ¼ò½é
-
-X-admin»ùÓÚlayuiµÄÇáÁ¿¼¶Ç°¶ËºóÌ¨¹ÜÀí¿ò¼Ü£¬¼òµ¥Ãâ·Ñ£¬¼æÈÝÐÔºÃ£¬ÃæÏòËùÓÐ²ã´ÎµÄÇ°ºó¶Ë³ÌÐò¡£´´Á¢ÓÚ2017Äê³õ£¬ÎªÁËÃô½ÝWEBÓ¦ÓÃ¿ª·¢ºÍ¼ò»¯ÆóÒµÓ¦ÓÃ¿ª·¢¶øµ®ÉúµÄ¡£#X-admin´Óµ®ÉúÒÔÀ´Ò»Ö±±ü³Ð¼ò½àÊµÓÃµÄÉè¼ÆÔ­Ôò£¬ÔÚ±£³Ö³öÉ«µÄÐÔÄÜºÍÖÁ¼òµÄ´úÂëµÄÍ¬Ê±£¬Ò²×¢ÖØÒ×ÓÃÐÔ¡£²¢ÇÒÓµÓÐÖÚ¶àµÄÔ­´´¹¦ÄÜºÍÌØÐÔ£¬ÔÚÉçÇøÍÅ¶ÓµÄ»ý¼«²ÎÓëÏÂ£¬ÔÚÒ×ÓÃÐÔ¡¢À©Õ¹ÐÔºÍÐÔÄÜ·½Ãæ²»¶ÏÓÅ»¯ºÍ¸Ä½ø£¬ÒÑ¾­³É³¤Îª¹úÄÚ×îÁìÏÈºÍ×î¾ßÓ°ÏìÁ¦µÄWEBÓ¦ÓÃ¿ª·¢Ç°¶ËºóÌ¨¿ò¼Ü£¬ÖÚ¶àµÄµäÐÍ°¸ÀýÈ·±£¿ÉÒÔÎÈ¶¨ÓÃÓÚÉÌÒµÒÔ¼°ÃÅ»§¼¶µÄ¿ª·¢¡£
-
-## ÉÌÒµÓÑºÃµÄ¿ªÔ´Ð­Òé
-
-X-admin×ñÑ­Apache2¿ªÔ´Ð­Òé·¢²¼¡£Apache LicenceÊÇÖøÃûµÄ·ÇÓ¯Àû¿ªÔ´×éÖ¯Apache²ÉÓÃµÄÐ­Òé¡£¸ÃÐ­ÒéºÍBSDÀàËÆ£¬¹ÄÀø´úÂë¹²ÏíºÍ×ðÖØÔ­×÷ÕßµÄÖø×÷È¨£¬Í¬ÑùÔÊÐí´úÂëÐÞ¸Ä£¬ÔÙ×÷Îª¿ªÔ´»òÉÌÒµÈí¼þ·¢²¼¡£
-
-##¹ÙÍø
-
-http://x.xuebingsi.com
-
-½»Á÷QQÈº£º519492808

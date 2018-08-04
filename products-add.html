@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        易动科技  V1.0
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/x-admin.css" media="all">
+    <link rel="stylesheet" href="./layui-v2.3.0/layui/css/layui.css"  media="all">
+</head>
+<body>
+<div class="x-nav">
+            <span class="layui-breadcrumb">
+              <a><cite>首页</cite></a>
+              <a><cite>会员管理</cite></a>
+              <a><cite>添加商品</cite></a>
+            </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"  href="javascript:location.replace(location.href);" title="刷新"><i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+
+<div class="x-body">
+</div>
+
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="name" lay-verify="name" autocomplete="off" placeholder="请输入商品名称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">生产工厂</label>
+            <div class="layui-input-inline">
+                <input type="text" name="factory" placeholder="请输入工厂名" lay-verify="factory" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">请选择区域</label>
+            <div class="layui-input-inline">
+                <select name="cityId" lay-verify="area" lay-search="" lay-filter="area">
+                    <option value="">区域选择</option>
+                    <option value="1">layer</option>
+                    <option value="2">form</option>
+                    <option value="3">layim</option>
+                    <option value="4">element</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">请上传图片</label>
+            <div class="layui-input-inline">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn layui-btn-normal" id="images" >选择图片</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">品牌</label>
+            <div class="layui-input-inline">
+                <input type="text" name="brand" placeholder="请输入商品品牌" lay-verify="brand" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">商品状态</label>
+            <div class="layui-input-inline">
+                <select name="state" lay-verify="state" lay-search="">
+                    <option value="">请选择商品状态</option>
+                    <option value="0">下架</option>
+                    <option value="1">上架</option>
+                    <option value="2">推荐</option>
+                    <option value="3">促销</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">保质期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="shelfLife" placeholder="请输入商品保质期" lay-verify="shelfLife" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">存储方法</label>
+        <div class="layui-input-block">
+            <input type="text" name="storage" lay-verify="storage" autocomplete="off" placeholder="请输入商品存储方法" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea placeholder="请输入商品备注信息" class="layui-textarea" name="remarks"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="demo1" id="submit">提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="./layui-v2.3.0/layui/layui.js" charset="utf-8"></script>
+<script>
+
+    layui.use(['form', 'layedit', 'laydate','upload','element','laypage','layer'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,upload = layui.upload
+            ,laydate = layui.laydate;
+
+        layer.ready(function(){ //为了layer.ext.js加载完毕再执行
+            layer.photos({
+                photos: '#x-img'
+                //,shift: 5 //0-6的选择，指定弹出图片动画类型，默认随机
+            });
+        });
+
+        //日期
+        laydate.render({
+            elem: '#date'
+        });
+        laydate.render({
+            elem: '#date1'
+        });
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //自定义验证规则
+        form.verify({
+            name: function(value){
+                if(value.length < 2){
+                    return '商品名称至少得2个字符啊';
+                }
+            }
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+            ,factory:function (value) {
+                if(value.length<=0) {
+                    return '请输入工厂名';
+                }
+            }
+            ,brand:function(value) {
+                if(value.length<=0) {
+                    return "请输入商品品牌";
+                }
+            }
+            ,shelfLife:function (value) {
+                if(value.length<=0) {
+                    return "请输入商品保质期";
+                }
+            }
+            ,storage:function (value) {
+                if(value.length<=0) {
+                    return "请输入商品存储方法";
+                }
+            }
+        });
+
+        //监听指定开关
+        form.on('switch(switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            return false;
+        });
+
+        //表单初始赋值
+        form.val('example', {
+            "username": "贤心" // "name": "value"
+            ,"password": "123456"
+            ,"interest": 1
+            ,"like[write]": true //复选框选中状态
+            ,"close": true //开关状态
+            ,"sex": "女"
+            ,"desc": "我爱 layui"
+        });
+
+        upload.render({
+            elem: '#images'
+            ,url: '/upload/'
+            ,auto: false
+            ,multiple:true
+            ,accept:'image'
+            ,size:1024000
+            ,exts:'png|jpg|bmp|jpeg|gif'
+            //,multiple: true
+            ,bindAction: '#submit'
+            ,done: function(res){
+                console.log(res)
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

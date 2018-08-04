@@ -46,7 +46,7 @@
 <script src="./layui/layui.js" charset="utf-8"></script>
 <script src="./js/x-layui.js" charset="utf-8"></script>
 <script type="text/html" id="bar">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看地址</a>
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="detail">查看地址</a>
 </script>
 <script>
     function user_show(title,url,w,h){
@@ -56,7 +56,7 @@
 <script>
     layui.use(['element','layer','table','form', 'layedit', 'laydate'], function(){
         var table = layui.table;
-        var layer = layui.layer;
+        // var layer = layui.layer;
 
         table.render({
             elem: '#user-list'
@@ -65,8 +65,8 @@
             ,cols: [[
                 {field:'id', width:100, title: '客户ID',align:"center", sort: true}
                 ,{field:'name', title: '客户名',align:"center"}
-                ,{field:'password', title: '客户密码'}
-                ,{field:'account', width:150, title: '手机号码'}
+                // ,{field:'password', title: '客户密码'}
+                // ,{field:'account', width:150, title: '手机号码'}
                 ,{fixed: 'right', width:178, align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
@@ -80,25 +80,25 @@
         table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.id + ' 的查看操作');
-                user_show('查看用户住址','address-show.html?user_id='+data.id,'600','500');
+                // layer.msg('ID：'+ data.id + ' 的查看操作');
+                user_show('查看用户住址','address-list.html?user_id='+data.id,'600','500');
             }
         });
 
         var $ = layui.$, active = {
             reload: function(){
                 var nameReload=$('#nameReload');
-                var phoneNumber=$('#phoneNumberReload');
+                // var phoneNumber=$('#phoneNumberReload');
 
                 //执行重载
-                table.reload('consult-list', {
-                    url: remoteURL+"/User/selectUser"
+                table.reload('user-list', {
+                    url: remoteURL+"/Consult/getConsultsLimit.do"
                     ,page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
                         name:nameReload.val(),
-                        phoneNumber:phoneNumber.val()
+                        // phoneNumber:phoneNumber.val()
                     }
                 });
             }

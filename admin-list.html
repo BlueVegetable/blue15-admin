@@ -50,17 +50,19 @@
 <script>
     layui.use(['element','layer','table','form', 'layedit', 'laydate'], function(){
         var table = layui.table;
-        var layer = layui.layer;
+        // var layer = layui.layer;
 
         table.render({
             elem: '#admin-list'
-            ,url:remoteURL+"/Admin/selectAll"
+            ,url:remoteURL+"/Consult/getConsults.do"
             ,page:true
             ,cols: [[
                 {field:'id', width:100, title: 'ID',align:"center", sort: true}
-                ,{field:'account', width:150, title: '管理员名',align:"center"}
-                ,{field:'password', title: '密码'}
-                ,{field:'cityId', width:150, title: '所在城市'}
+                // ,{field:'account', width:150, title: '管理员名',align:"center"}
+                // ,{field:'password', title: '密码'}
+                // ,{field:'cityId', width:150, title: '所在城市',templet:function(data) {
+                //         return data.cityId;
+                //     }}
                 ,{fixed: 'right', width:178, align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
@@ -79,37 +81,38 @@
             // } else
             if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
-                admin_edit('添加咨询条目','admin-edit.html?id='+data.id,'600','500');
+                admin_edit('修改管理员','admin-edit.html?adminId='+data.id+"&adminAccount="+data.account+"&adminPassword="+data.password,'600','500');
             }
         });
 
-        var $ = layui.$, active = {
-            reload: function(){
-                var idReload = $('#idReload');
-                var nameReload=$('#nameReload');
-                var phoneNumber=$('#phoneNumberReload');
-                var remarkReload=$('#remarkReload');
-
-                //执行重载
-                table.reload('admin-list', {
-                    url: remoteURL+"/Admin/selectAll"
-                    ,page: {
-                        curr: 1 //重新从第 1 页开始
-                    }
-                    ,where: {
-                        id: idReload.val(),
-                        name:nameReload.val(),
-                        phoneNumber:phoneNumber.val(),
-                        remark:remarkReload.val()
-                    }
-                });
-            }
-        };
-        //#select
-        $('#select').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
+        //数据表格重载问题
+        // var $ = layui.$, active = {
+        //     reload: function(){
+        //         var idReload = $('#idReload');
+        //         var nameReload=$('#nameReload');
+        //         var phoneNumber=$('#phoneNumberReload');
+        //         var remarkReload=$('#remarkReload');
+        //
+        //         //执行重载
+        //         table.reload('admin-list', {
+        //             url: remoteURL+"/Admin/selectAll"
+        //             ,page: {
+        //                 curr: 1 //重新从第 1 页开始
+        //             }
+        //             ,where: {
+        //                 id: idReload.val(),
+        //                 name:nameReload.val(),
+        //                 phoneNumber:phoneNumber.val(),
+        //                 remark:remarkReload.val()
+        //             }
+        //         });
+        //     }
+        // };
+        // //#select
+        // $('#select').on('click', function(){
+        //     var type = $(this).data('type');
+        //     active[type] ? active[type].call(this) : '';
+        // });
 
     });
 

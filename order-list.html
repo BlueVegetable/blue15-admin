@@ -105,14 +105,14 @@
                     var data = obj.data;
                     // if(obj.event === 'detail'){
                     //     layer.msg('ID：'+ data.id + ' 的查看操作');
-                    //     // consult_show('修改咨询条目','consult-show.html?id='data.id,'600','500');
+                    //     // order_show('修改咨询条目','order-show.html?id='data.id,'600','500');
                     // } else
                     if(obj.event === 'del'){
                         layer.confirm('真的删除行么', function(index){
                             obj.del();
                             $.ajax({
                                 type: "POST",
-                                url:  remoteURL+"/Consult/deleteConsult.do",
+                                url:  remoteURL+"/OrderForm/selectAll",
                                 data: {id:data.id},
                                 dataType: "json",
                                 success: function(res){
@@ -167,8 +167,8 @@
                         var remarkReload=$('#remarkReload');
 
                         //执行重载
-                        table.reload('consult-list', {
-                            url: remoteURL+"/Consult/getConsultsLimit.do"
+                        table.reload('order-list', {
+                            url: remoteURL+"/OrderForm/selectAll"
                             ,page: {
                                 curr: 1 //重新从第 1 页开始
                             }
@@ -192,10 +192,10 @@
         </script>
         <script src="./js/x-layui.js" charset="utf-8"></script>
         <script>
-            function consult_add(title,url,w,h){
+            function order_add(title,url,w,h){
                 x_admin_show(title,url,w,h);
             }
-            // function consult_show(title,url,w,h){
+            // function order_show(title,url,w,h){
             //     x_admin_show(title,url,w,h);
             // }
         </script>

@@ -15,6 +15,9 @@
 
     <script type="text/javascript">
         $(document).ready(function(){
+            link();
+        });
+        function link(){
             $.ajax({
                 type: "POST",
                 url:  remoteURL+"/Area/selectAll",
@@ -27,7 +30,7 @@
                     }
                 }
             });
-        })
+        }
         function init(data) {
             var string=getString(data);
             document.getElementById("my-tbody").innerHTML+=string;
@@ -37,11 +40,7 @@
                 '<tr>'+
                     '<td>'+data.id+'</td>'+
                     '<td>'+data.city+'</td>'+
-                    '<td class="td-manage">'+
-                    '<button title="删除" href="javascript:;" onclick="area_del(this,\'1\')" style="text-decoration:none">'+
-                        '<i class="layui-icon">&#xe640;</i>  删除'+
-                    '</button>'+
-                    '</td>'+
+                    '<td>暂无操作</td>'
                 '</tr>';
             return string;
         }
@@ -97,14 +96,6 @@
     layui.use(['element','layer'], function(){
  
     });
-
-    //批量删除提交
-    function area_del () {
-        layer.confirm('确认要删除吗？',function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-        });
-    }
     /*用户-添加*/
     function area_add(title,url,w,h){
         x_admin_show(title,url,w,h);

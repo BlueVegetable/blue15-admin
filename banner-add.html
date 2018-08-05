@@ -33,7 +33,7 @@
         function up(){
             var formData = new FormData($('#myform')[0]);
             $.ajax({
-                url: remoteURLTrue+"/Banner/uploadPicture",
+                url: remoteURL+"/Banner/uploadPicture",
                 type: 'POST',
                 cache: false,
                 data: formData,
@@ -134,7 +134,7 @@
             form.on('submit(add)', function(data){
                 console.log(data);
                 //发异步，把数据提交给php
-                $.post(remoteURLTrue+"/Banner/addBanner",data.field,function(res){
+                $.post(remoteURL+"/Banner/addBanner",data.field,function(res){
                     if(res==1) {
                         layer.alert("添加成功", {icon: 6},function () {
                             // 获得frame索引

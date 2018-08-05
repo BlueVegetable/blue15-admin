@@ -224,7 +224,7 @@
 
         upload.render({
             elem: '#images'
-            ,url: remoteURLTrue+"/Banner/addBanner"
+            ,url: "http://192.168.1.100:8080/vegetable14/Picture/upload.do"
             ,auto: true
             ,multiple:true
             ,accept:'image'
@@ -234,7 +234,7 @@
             ,bindAction: '#submit'
             ,done: function(res){
                 console.log(res);
-                alert(res);
+                alert("成功了");
             }
             ,error: function(res,data){
                 layer.alert(res+"+:+"+data);

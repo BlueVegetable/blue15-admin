@@ -30,7 +30,7 @@
                 };
                 $.ajax({
                     type: "POST",
-                    url:  remoteURLTrue+"/Banner/selectAll",
+                    url:  remoteURL+"/Banner/selectAll",
                     data: {cityId:cityId},
                     dataType: "json",
                     success: function(data){
@@ -71,7 +71,7 @@
                 }
                 $.ajax({
                     type: "POST",
-                    url:  remoteURLTrue+"/Banner/upateById",
+                    url:  remoteURL+"/Banner/upateById",
                     data: {id:banaId,state:status},
                     dataType: "json",
                     success: function(data){

@@ -60,13 +60,13 @@
 
         table.render({
             elem: '#user-list'
-            ,url:remoteURL+"/Consult/getConsults.do"
+            ,url:remoteURL+"/User/selectUser"
             ,page:true
             ,cols: [[
                 {field:'id', width:100, title: '客户ID',align:"center", sort: true}
                 ,{field:'name', title: '客户名',align:"center"}
-                // ,{field:'password', title: '客户密码'}
-                // ,{field:'account', width:150, title: '手机号码'}
+                ,{field:'password', title: '客户密码'}
+                ,{field:'account', width:150, title: '手机号码'}
                 ,{fixed: 'right', width:178, align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
@@ -88,17 +88,17 @@
         var $ = layui.$, active = {
             reload: function(){
                 var nameReload=$('#nameReload');
-                // var phoneNumber=$('#phoneNumberReload');
+                var phoneNumber=$('#phoneNumberReload');
 
                 //执行重载
                 table.reload('user-list', {
-                    url: remoteURL+"/Consult/getConsultsLimit.do"
+                    url: remoteURL+"/User/selectUser"
                     ,page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
                         name:nameReload.val(),
-                        // phoneNumber:phoneNumber.val()
+                        account:phoneNumber.val()
                     }
                 });
             }

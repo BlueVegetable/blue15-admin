@@ -70,7 +70,7 @@
 <script type="text/html" id="bar">
     <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
     <button class="layui-btn layui-btn-xs" lay-event="edit" >修改商品状态</button>
-    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
+    <!--<button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>-->
 </script>
 <script>
     layui.use(['element','layer','table','form', 'layedit', 'laydate'], function(){
@@ -83,7 +83,10 @@
             ,url:remoteURL+"/Goods/selectAll"
             ,page:true
             ,cols: [[
-                {field:'id', width:100, title: '商品ID',align:"center", sort: true}
+                {field:'id', width:100, title: '商品ID',align:"center", sort: true, templet:function (data) {
+                        return data.list[0].id;
+                    }
+                }
                 ,{field:'name', width:150, title: '商品名称',align:"center"}
                 ,{field:'state', title: '商品状态', templet:function(data){
                         switch(data.state) {
@@ -112,57 +115,11 @@
             //     layer.msg('ID：'+ data.id + ' 的查看操作');
             //     // consult_show('修改咨询条目','consult-show.html?id='data.id,'600','500');
             // } else
-            if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
-                    obj.del();
-                    $.ajax({
-                        type: "POST",
-                        url:  remoteURL+"/Consult/deleteConsult.do",
-                        data: {id:data.id},
-                        dataType: "json",
-                        success: function(res){
-                            if(res==1)
-                                layer.msg('删除成功');
-                            else
-                                layer.msg('删除失败');
-                        }
-                    });
-                    layer.close(index);
-                });
-            } else if(obj.event === 'edit'){
+            if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
-                product_edit('修改商品状态','products-edit.html?id='+data.id+"&state="+data.state,400,250);
+                product_edit('修改商品状态','products-edit.html?id='+data.list[0].id+"&state="+data.state,400,250);
             }
         });
-
-        // var $ = layui.$, active = {
-        //     getCheckData: function(){ //获取选中数据
-        //         var checkStatus = table.checkStatus('idTest')
-        //             ,data = checkStatus.data;
-        //         layer.alert(JSON.stringify(data));
-        //     }
-        //     ,getCheckLength: function(){ //获取选中数目
-        //         var checkStatus = table.checkStatus('idTest')
-        //             ,data = checkStatus.data;
-        //         layer.msg('选中了：'+ data.length + ' 个');
-        //     }
-        //     ,isAll: function(){ //验证是否全选
-        //         var checkStatus = table.checkStatus('idTest');
-        //         layer.msg(checkStatus.isAll ? '全选': '未全选')
-        //     }
-        // };
-        //
-        // $('.demoTable .layui-btn').on('click', function(){
-        //     var type = $(this).data('type');
-        //     active[type] ? active[type].call(this) : '';
-        // });
-
-        // form.on('submit(search)', function(data){
-        //     layer.alert(JSON.stringify(data.field), {
-        //         title: '最终的提交信息'
-        //     });
-        //     return false;
-        // });
 
         var $ = layui.$, active = {
             reload: function(){

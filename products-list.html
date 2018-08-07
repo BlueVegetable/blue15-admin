@@ -68,7 +68,7 @@
     }
 </script>
 <script type="text/html" id="bar">
-    <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">商品详情</a>
     <button class="layui-btn layui-btn-xs" lay-event="edit" >修改商品状态</button>
     <!--<button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>-->
 </script>
@@ -111,11 +111,10 @@
         //监听工具条
         table.on('tool(demo)', function(obj){
             var data = obj.data;
-            // if(obj.event === 'detail'){
-            //     layer.msg('ID：'+ data.id + ' 的查看操作');
-            //     // consult_show('修改咨询条目','consult-show.html?id='data.id,'600','500');
-            // } else
-            if(obj.event === 'edit'){
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.list[0].id + ' 的查看操作');
+                // consult_show('修改咨询条目','consult-show.html?id='data.id,'600','500');
+            } else if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
                 product_edit('修改商品状态','products-edit.html?id='+data.list[0].id+"&state="+data.state,400,250);
             }

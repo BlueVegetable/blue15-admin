@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
 
     <script src="js/url.js" type="text/javascript"></script>
+    <script src="js/function.js" type="text/javascript"></script>
+    <script>
+        window.onload=function () {
+            var cityId=getParameter(window.location.href,"cityId");
+            document.getElementById("hiddened").innerHTML+="<input type='hidden' name='cityId' value='"+cityId+"' />";
+        }
+    </script>
 </head>
 <body>
 <div class="x-nav">
@@ -52,7 +59,7 @@
     <fieldset class="layui-elem-field">
         <legend>已上传的图片</legend>
         <div class="layui-field-box" id="image-show">
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <!--<img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />-->
         </div>
     </fieldset>
 
@@ -71,19 +78,6 @@
                 <input type="text" name="factory" placeholder="请输入工厂名" lay-verify="factory" autocomplete="off" class="layui-input">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">请选择区域</label>
-            <div class="layui-input-inline">
-                <select name="cityId" lay-verify="area" lay-search="" lay-filter="area">
-                    <option value="">区域选择</option>
-                    <option value="1">layer</option>
-                    <option value="2">form</option>
-                    <option value="3">layim</option>
-                    <option value="4">element</option>
-                </select>
-            </div>
-        </div>
-
     </div>
 
     <div class="layui-form-item">
@@ -124,6 +118,13 @@
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
             <textarea placeholder="请输入商品备注信息" class="layui-textarea" name="remarks"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-inline" style="display:none;">
+        <label class="layui-form-label">隐藏字段</label>
+        <div class="layui-input-inline" id="hiddened">
+
         </div>
     </div>
 
@@ -211,20 +212,9 @@
             return false;
         });
 
-        //表单初始赋值
-        form.val('example', {
-            "username": "贤心" // "name": "value"
-            ,"password": "123456"
-            ,"interest": 1
-            ,"like[write]": true //复选框选中状态
-            ,"close": true //开关状态
-            ,"sex": "女"
-            ,"desc": "我爱 layui"
-        });
-
         upload.render({
             elem: '#images'
-            ,url: "http://192.168.1.100:8080/vegetable14/Picture/upload.do"
+            ,url: "http://localhost:8080/vegetable14/Picture/upload.do"
             ,auto: true
             ,multiple:true
             ,accept:'image'
@@ -234,10 +224,10 @@
             ,bindAction: '#submit'
             ,done: function(res){
                 console.log(res);
-                alert("成功了");
+                alert(res.data);
             }
             ,error: function(res,data){
-                layer.alert(res+"+:+"+data);
+                layer.alert(res+":"+data);
             }
         });
 

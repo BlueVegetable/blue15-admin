@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>详情页面</title>
+<link href="style/shopdetail.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="css/style1.css" />
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/function.js"></script>
+<script src="./js/url.js" charset="utf-8"></script>
+<script type="text/javascript">
+      $(document).ready(function(){
+          var goodsId=getParameter(window.location.href,"goodsId");
+          init(goodsId);
+      });
+function init(id) {
+	$.ajax({
+            type: "POST",
+            url:  remoteURL+"/Goods/selectById",
+            data: {id:id},
+            dataType: "json",
+            success: function(data){
+            	update(data);
+
+            	//测试
+                var showproduct = {
+                    "boxid":"showbox",
+                    "sumid":"showsum",
+                    "boxw":400,
+                    "boxh":550,
+                    "sumw":60,//列表每个宽度,该版本中请把宽高填写成一样
+                    "sumh":60,//列表每个高度,该版本中请把宽高填写成一样
+                    "sumi":7,//列表间隔
+                    "sums":5,//列表显示个数
+                    "sumsel":"sel",
+                    "sumborder":1,//列表边框，没有边框填写0，边框在css中修改
+                    "lastid":"showlast",
+                    "nextid":"shownext"
+                };//参数定义
+                $.ljsGlasses.pcGlasses(showproduct);//方法调用，务必在加载完后执行
+
+                $(function(){
+
+                    $('.tabs a').click(function(){
+
+                        var $this=$(this);
+                        $('.panel').hide();
+                        $('.tabs a.active').removeClass('active');
+                        $this.addClass('active').blur();
+                        var panel=$this.attr("href");
+                        $(panel).show();
+                        return fasle;  //告诉浏览器  不要纸箱这个链接
+                    });//end click
+
+
+                    $(".tabs li:first a").click()   //web 浏览器，单击第一个标签吧
+
+
+
+                });//end ready
+
+                $(".centerbox li").click(function(){
+                    // $("li").removeClass("now");
+                    // $(this).addClass("now")
+
+                });
+		}
+	});
+	function update(data) {
+	    console.log(data);
+        document.getElementById("showbox").innerHTML="";
+        for(var i=0;i<data.list.length;i++) {
+            document.getElementById("showbox").innerHTML+=
+				'<img src="'+data.list[i].address+'" width="400" height="550" />';
+		}
+
+		document.getElementById("imgname").innerHTML=data.name;
+        document.getElementById("storage").innerHTML=data.storage;
+		document.getElementById("brand").innerHTML=data.brand;
+		document.getElementById("factory").innerHTML=data.factory;
+		document.getElementById("shelfLife").innerHTML=data.shelfLife;
+		document.getElementById("remark").innerHTML=data.remarks;
+
+		var state=document.getElementById("state");
+		switch (data.state) {
+            default: state.innerHTML="上架";break;
+            case 2: state.innerHTML="推荐";break;
+            case 3: state.innerHTML="促销";break;
+            case 0: state.innerHTML="下架";break;
+        }
+
+        //处理地区
+        $.ajax({
+            type: "POST",
+            url:  remoteURL+"/Area/selectById",
+            data: {cityId:data.cityId},
+            success: function(data){
+                document.getElementById("city").innerHTML=data;
+            }
+        });
+
+		//处理价格问题
+        var price_pattern=document.getElementById("price-pattern");
+        var price_list=data.listPrice;
+        price_pattern.innerHTML='<li class="zhengchang" style="width:80px">规格：</li>';
+        if(price_list!=null) {
+            for(var i=0;i<price_list.length;i++) {
+                price_pattern.innerHTML+='<li><button style="cursor:pointer;" class="btn" price="'+
+                    price_list[i].price+'元/' +
+                    price_list[i].unit+'" onclick="button_click(this)">'+
+                    price_list[i].price+'</button></li>';
+            }
+        }
+        if(document.getElementsByClassName("btn").length>0)
+            document.getElementsByClassName("btn")[0].click();
+	}
+}
+function button_click(button) {
+    document.getElementById("price").innerHTML="￥"+button.getAttribute("price");
+}
+</script>
+    <style type="text/css" >
+        .btn{
+            border:1px #333 solid;
+            text-align:center;
+            padding:4px 10px;
+            font-size:15px;
+            background: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+<!-----商品详情部分------->
+<div class="shopdetails">
+	<!-------放大镜-------->
+	<div id="leftbox">
+	<div id="showbox">
+	  <!--<img src="images/shopdetail/img01.png" width="400" height="550" />-->
+	  <!--<img src="images/shopdetail/img02.png" width="400" height="550" />-->
+	  <!--<img src="images/shopdetail/img03.png" width="400" height="550" />-->
+	  <!--<img src="images/shopdetail/img04.png" width="400" height="550" />-->
+	  <!--<img src="images/shopdetail/img05.png" width="400" height="400" />-->
+	  <!--<img src="images/shopdetail/img01.png" width="400" height="400" />-->
+
+	</div><!--展示图片盒子-->
+		<div id="showsum"></div><!--展示图片里边-->
+		<p class="showpage">
+ 		 <a href="javascript:void(0);" id="showlast"> < </a>
+  		 <a href="javascript:void(0);" id="shownext"> > </a>
+		</p>
+        
+	</div>
+    <!----中间----->
+
+    <div class="centerbox">
+    	<p class="imgname" id="imgname">叠叠杯水杯茶杯套杯陶瓷咖啡牛奶杯具套装</p>
+
+		<p class="price">价格：<samp id="price">￥49.00</samp></p>
+        <br><br>
+    	<ul id="price-pattern">
+        <li class="zhengchang" style="width:80px">规格：</li>
+        <li><button style="cursor:pointer;width:80px" class="a_demo_one" price="14.00" onclick="button_click(this)">14</button></li>
+        <li><button style="cursor:pointer" class="a_demo_one" price="60.00" onclick="button_click(this)">60</button></li>
+        <li><button style="cursor:pointer" class="a_demo_one" price="70.00" onclick="button_click(this)">70</button></li>
+        <li><button style="cursor:pointer" class="a_demo_one" price="80.00" onclick="button_click(this)">80</button></li>
+        </ul>
+
+		<br><br><br><br>
+        <p class="zhengchang">城市：<samp id="city">浙江杭州</samp></p>
+        <p class="zhengchang">状态：<samp id="state">上架</samp></p>
+        <p class="zhengchang">商标：<samp id="brand">瘀斑牌</samp></p>
+        <p class="zhengchang">保质期：<samp id="shelfLife">30天</samp></p>
+        <p class="zhengchang">储存方式：<samp id="storage">老母鸡</samp></p>
+        <p class="zhengchang">生产工厂：<samp id="factory"></samp></p>
+        <p class="zhengchang">备注：<samp id="remark"></samp></p>
+
+
+    	
+    	<!-- <p class="price">价格：<samp>￥49.00</samp></p>
+    	<p class="youhui">城市：<samp>购物满两件打八折</samp></p>
+    	<p class="youhui">状态：<samp>购物满两件打八折</samp></p>
+    	<p class="youhui">品牌：<samp>购物满两件打八折</samp></p>
+    	<p class="youhui">生产工厂：<samp>购物满两件打八折</samp></p>
+
+    	<p class="youhui">储存方式：<samp style="color: black;">购物满两件打八折</samp></p>
+    	<p class="youhui">保存时长：<samp style="color: black;">购物满两件打八折</samp></p> -->
+    </div>
+            
+</div>
+<!-----商品详情部分结束------->
+
+</body>
+</html>

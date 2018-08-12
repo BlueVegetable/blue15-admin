@@ -16,6 +16,7 @@
 
     <script src="js/url.js" type="text/javascript"></script>
     <script src="js/function.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
         window.onload=function () {
             var cityId=getParameter(window.location.href,"cityId");
@@ -59,7 +60,16 @@
     <fieldset class="layui-elem-field">
         <legend>已上传的图片</legend>
         <div class="layui-field-box" id="image-show">
-            <!--<img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />-->
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
+            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
         </div>
     </fieldset>
 
@@ -71,6 +81,23 @@
         <!--</div>-->
     <!--</div>-->
 
+    <!--<div class="layui-form-item">-->
+    <!--</div>-->
+
+    <table id="price-list" style="align:center;" cellspacing="10px">
+        <tr id="trone_0">
+        <td><label class="layui-form-label">规格1</label></td>
+        <td>
+            <div class="layui-input-inline">
+                <input type="text" name="price" placeholder="请输入价格" lay-verify="price" autocomplete="off" class="layui-input">
+            </div>
+        </td>
+        <td>
+            <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addRow()">增加</a>
+        </td>
+    </table>
+    <br><br>
+
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">生产工厂</label>
@@ -78,9 +105,6 @@
                 <input type="text" name="factory" placeholder="请输入工厂名" lay-verify="factory" autocomplete="off" class="layui-input">
             </div>
         </div>
-    </div>
-
-    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">品牌</label>
             <div class="layui-input-inline">
@@ -130,7 +154,7 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="demo1" id="submit">提交</button>
+            <button class="layui-btn" lay-submit="submit" lay-filter="demo1" id="submit">提交</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -208,7 +232,7 @@
         form.on('submit(demo1)', function(data){
             layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
-            })
+            });
             return false;
         });
 
@@ -233,6 +257,30 @@
 
     });
 
+</script>
+<script type="text/javascript" >
+    function addRow() {
+        var priceTable = document.getElementById("price-list");
+        var y = priceTable.insertRow(-1);
+        var addNum = $("#price-list").find("tr").length-1;
+        y.id ="trone_" + addNum;
+
+        var a = y.insertCell(0);
+        var b = y.insertCell(1);
+        var c = y.insertCell(2);
+
+        a.innerHTML="<td><label class=\"layui-form-label\">"+"规格"+(addNum+1)+"</label></label></td>";
+        b.innerHTML="<td><div class=\"layui-input-inline\">"+
+            "<input type=\"text\" name=\"price\" placeholder=\"请输入价格\" lay-verify=\"price\" autocomplete=\"off\" class=\"layui-input\">"+
+            "</div></td>";
+        c.innerHTML="<td>"+
+            "<a class=\"layui-btn layui-btn-sm layui-btn-normal\" onclick=\"addRow()\">增加</a>"+
+            "<a class=\"layui-btn layui-btn-sm layui-btn-danger\" onclick=\"deleteRow('" +y.id+"');\">删除</a>"+
+            "</td>";
+    }
+    function deleteRow(rowId){
+        $("tr[id="+rowId+"]").remove();
+    }
 </script>
 </body>
 </html>

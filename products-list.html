@@ -83,11 +83,13 @@
             ,url:remoteURL+"/Goods/selectAll"
             ,page:true
             ,cols: [[
-                {field:'id', width:100, title: '商品ID',align:"center", sort: true, templet:function (data) {
-                        return data.list[0].id;
-                    }
-                }
-                ,{field:'name', width:150, title: '商品名称',align:"center"}
+                // {field:'id', width:100, title: '商品ID',align:"center", sort: true, templet:function (data) {
+                //         console.log((data.list[0]));
+                //         // return data.list[0].goodsId;
+                //         return "1";
+                //     }
+                // }
+                {field:'name', width:150, title: '商品名称',align:"center"}
                 ,{field:'state', title: '商品状态', templet:function(data){
                         switch(data.state) {
                             case 1:return "上架";break;
@@ -99,7 +101,7 @@
                     }
                 }
                 ,{field:'brand', title: '品牌'}
-                ,{fixed: 'right', width:200, align:'center', toolbar: '#bar',title:'操作'}
+                ,{width:200, align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
         });
@@ -112,11 +114,11 @@
         table.on('tool(demo)', function(obj){
             var data = obj.data;
             if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.list[0].id + ' 的查看操作');
-                // consult_show('修改咨询条目','consult-show.html?id='data.id,'600','500');
+                // layer.msg('ID：'+ data.list[0].id + ' 的查看操作');
+                product_show('查看商品详情','product-detail.html?goodsId='+data.list[0].goodsId,800,600);
             } else if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
-                product_edit('修改商品状态','products-edit.html?id='+data.list[0].id+"&state="+data.state,400,250);
+                product_edit('修改商品状态','products-edit.html?id='+data.list[0].goodsId+"&state="+data.state,400,250);
             }
         });
 
@@ -127,13 +129,13 @@
 
                 //执行重载
                 table.reload('consult-list', {
-                    url: remoteURL+"/Consult/getConsultsLimit.do"
+                    url: remoteURL+"/Goods/selectAll"
                     ,page: {
                         curr: 1 //重新从第 1 页开始
                     }
                     ,where: {
                         name:nameReload.val(),
-                        state:state.val(),
+                        state:state.val()
                     }
                 });
             }
@@ -152,9 +154,9 @@
     function consult_add(title,url,w,h){
         x_admin_show(title,url,w,h);
     }
-    // function consult_show(title,url,w,h){
-    //     x_admin_show(title,url,w,h);
-    // }
+    function product_show(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
 </script>
 </body>
 </html>

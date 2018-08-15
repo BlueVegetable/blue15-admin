@@ -51,13 +51,10 @@
         </div>
         <script src="./layui/layui.js" charset="utf-8"></script>
         <script>
-            function order_edit(title,url,w,h){
-                x_admin_show(title,url,w,h);
-            }
+
         </script>
         <script type="text/html" id="bar">
             <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
-            <button class="layui-btn layui-btn-xs" lay-event="edit" >编辑</button>
             <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
         </script>
         <script>
@@ -92,25 +89,23 @@
                     //     // order_show('修改咨询条目','order-show.html?id='data.id,'600','500');
                     // } else
                     if(obj.event === 'del'){
-                        layer.confirm('真的删除行么', function(index){
-                            obj.del();
-                            $.ajax({
-                                type: "POST",
-                                url:  remoteURL+"/OrderForm/selectAll",
-                                data: {id:data.id},
-                                dataType: "json",
-                                success: function(res){
-                                    if(res==1)
-                                        layer.msg('删除成功');
-                                    else
-                                        layer.msg('删除失败');
-                                }
-                            });
-                            layer.close(index);
-                        });
-                    } else if(obj.event === 'edit'){
-                        // layer.alert('编辑行：<br>'+ JSON.stringify(data));
-                        order_edit('添加咨询条目','order-edit.html?id='+data.id,'600','500');
+                        layer.msg("此功能尚未添加");
+                        // layer.confirm('真的删除行么', function(index){
+                        //     obj.del();
+                        //     $.ajax({
+                        //         type: "POST",
+                        //         url:  remoteURL+"/OrderForm/selectAll",
+                        //         data: {id:data.id},
+                        //         dataType: "json",
+                        //         success: function(res){
+                        //             if(res==1)
+                        //                 layer.msg('删除成功');
+                        //             else
+                        //                 layer.msg('删除失败');
+                        //         }
+                        //     });
+                        //     layer.close(index);
+                        // });
                     }
                 });
 

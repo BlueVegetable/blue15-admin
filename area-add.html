@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加地区</title>
+    <link rel="stylesheet" href="css/pick-pcc.min.1.0.1.css"/>
+    <style>
+        body{padding:10px;}
+        .pick-area{display: inline-block;}
+        .a{float:left;width:100%;margin:10px;}
+        .a a{float:left;margin:10px;}
+        .a input{float:left;width:400px;padding:10px;margin:10px;outline-color: gold;}
+        h1{text-align: center;}
+        /*h3{margin:5px;color:#333;}*/
+        h4{margin:5px;color:#666;padding:0 20px;font-weight: 100;}
+        .blank{float:left;width:50%;height:400px;background:cyan;border-top:1px solid #333;margin-top:50px;}
+        .blank2{float:left;width:50%;height:400px;background:lightpink;border-top:1px solid #333;padding-top:50px;}
+        .box{width:100%;overflow: hidden;background:lightgreen;}
+    </style>
+</head>
+<link rel="stylesheet" href="./css/x-admin.css" media="all">
+<body>
+
+<div class="a">
+    <form>
+        <div>
+            <h3 style="font-size:25px;font-weight:bold;">请选择省市</h3>
+            <a href="javascript:void(0)" style="width: 275px;" class="pick-area pick-area2" name=""></a><br><br><br><br>
+            <input type="text" id="city" style="width: 275px;" placeholder="所选省市"/><br><br><br><br>
+            <div>
+                <a class="layui-btn" onclick="submit()">立即提交</a>
+                <a class="layui-btn layui-btn-primary" onclick="reset()">重置</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/pick-pcc.min.1.0.1.js"></script>
+<script src="js/url.js" type="text/javascript"></script>
+<script src="./lib/layui/layui.js" charset="utf-8"></script>
+<script>
+    function submit() {
+        var city=document.getElementById("city").value;
+        if(city!=""){
+            $.ajax({
+                type: "POST",
+                url:  remoteURL+"/Area/addCity",
+                data: {city:city},
+                dataType: "json",
+                success: function(data){
+                    if(data==1) {
+                        layui.use(['layer'], function(){
+                            var layer=layui.layer;
+                            layer.alert("添加成功",{icon:6},function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                //关闭当前frame
+                                parent.layer.close(index);
+                            });
+                        });
+                    } else {
+                        layui.use(['layer'], function(){
+                            var layer=layui.layer;
+                            layer.alert("添加失败",{icon:6},function () {
+                                var index = parent.layer.getFrameIndex(window.name);
+                                //关闭当前frame
+                                parent.layer.close(index);
+                            });
+                        });
+                    }
+                }
+            });
+        } else {
+            layui.use(['layer'], function(){
+                var layer=layui.layer;
+                layer.msg("请选择地区");
+            });
+        }
+    }
+    function reset() {
+        document.getElementById("city").value="";
+    }
+</script>
+<script type="text/javascript">
+    $(".pick-area2").pickArea({
+        "format":"北京市/市辖区", //格式
+        "width":"300",
+        "borderColor":"#7b68ee",//文本边框的色值
+        "arrowColor":"#7b68ee",//箭头颜色
+        "listBdColor":"#7b68ee",//下拉框父元素ul的border色值
+        "color":"#7b68ee",//字体颜色
+        "fontSize":"16px",//字体大小
+        "hoverColor":"#7b68ee",
+        "paddingLeft":"10px",
+        "arrowRight":"10px",
+        //"preSet":"北京市/市辖区/东城区",
+        "getVal":function(){
+            //console.log($(".pick-area-hidden").val())
+            //console.log($(".pick-area-dom").val())
+            $('#city').val($(".pick-area-hidden").val());
+            console.log($(".pick-area-hidden").val());
+        }
+    });
+</script>
+</html>

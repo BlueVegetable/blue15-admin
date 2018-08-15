@@ -126,6 +126,11 @@
             console.log(data);
             $.post(document.getElementById("myform").action,data.field,function(res){
                 if(res==1) {
+                    var table=parent.layui.table;
+                    table.reload('admin-list', {
+                        url: remoteURL+"/Admin/selectAll"
+                    });
+
                     layer.alert("添加成功", {icon: 6},function () {
                         // 获得frame索引
                         var index = parent.layer.getFrameIndex(window.name);

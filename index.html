@@ -21,6 +21,7 @@
                 getCityIdFromUrl();
                 document.getElementById("banner").setAttribute("_href","./banner-list.html?cityId="+cityId);
                 document.getElementById("order").setAttribute("_href","./order-list.html?cityId="+cityId);
+                document.getElementById("products-add").setAttribute("_href","./products-add.html?cityId="+cityId)
             };
             function getCityIdFromUrl() {
                 var href=window.location.href;
@@ -94,11 +95,20 @@
                             </a>
                             <dl class="layui-nav-child">
                                 <dd class="">
-                                    <dd class="">
-                                        <a href="javascript:;" _href="./products-list.html">
-                                            <cite>产品列表</cite>
-                                        </a>
-                                    </dd>
+                                <dd class="">
+                                    <a href="javascript:;" _href="./products-add.html" id="products-add">
+                                        <cite>产品添加</cite>
+                                    </a>
+                                </dd>
+                                </dd>
+                            </dl>
+                            <dl class="layui-nav-child">
+                                <dd class="">
+                                <dd class="">
+                                    <a href="javascript:;" _href="./products-list.html">
+                                        <cite>产品列表</cite>
+                                    </a>
+                                </dd>
                                 </dd>
                             </dl>
                         </li>

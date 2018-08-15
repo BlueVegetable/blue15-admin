@@ -39,6 +39,7 @@
 
 <form class="layui-form" id="myform" action="">
 
+    <input type="hidden" name="id" value="" />
     <div class="layui-form-item">
         <label class="layui-form-label">商品名称</label>
         <div class="layui-input-block">
@@ -51,7 +52,7 @@
             <label class="layui-form-label">请上传图片</label>
             <div class="layui-input-inline">
                 <div class="layui-upload">
-                    <button type="button" class="layui-btn layui-btn-normal" id="images" >选择图片</button>
+                    <button type="button" name="file" class="layui-btn layui-btn-normal" id="images" >选择图片</button>
                 </div>
             </div>
         </div>
@@ -60,16 +61,6 @@
     <fieldset class="layui-elem-field">
         <legend>已上传的图片</legend>
         <div class="layui-field-box" id="image-show">
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
-            <img src="http://pbvxr9z7k.bkt.clouddn.com/755931b0a44e4f26b53307386d2efc6b" width="100px" height="100px" />
         </div>
     </fieldset>
 
@@ -86,15 +77,32 @@
 
     <table id="price-list" style="align:center;" cellspacing="10px">
         <tr id="trone_0">
-        <td><label class="layui-form-label">规格1</label></td>
-        <td>
-            <div class="layui-input-inline">
-                <input type="text" name="price" placeholder="请输入价格" lay-verify="price" autocomplete="off" class="layui-input">
-            </div>
-        </td>
-        <td>
-            <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addRow()">增加</a>
-        </td>
+            <td>
+                <label class="layui-form-label">规格1</label>
+            </td>
+            <td>
+                <div class="layui-input-inline">
+                    <input type="text" name="price" placeholder="请输入价格" lay-verify="price" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+            <td>
+                <div class="layui-input-inline">
+                    <input type="text" name="num" placeholder="请输入数量" lay-verify="num" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+            <td>
+                <div class="layui-input-inline">
+                    <input type="text" name="weight" placeholder="请输入重量" lay-verify="weight" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+            <td>
+                <div class="layui-input-inline">
+                    <input type="text" name="unit" placeholder="请输入单位" lay-verify="unit" autocomplete="off" class="layui-input">
+                </div>
+            </td>
+            <td class="layui-inline">
+                <a class="layui-btn layui-btn-sm layui-btn-normal" onclick="addRow()">增加</a>
+            </td>
     </table>
     <br><br>
 
@@ -126,7 +134,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">保质期</label>
             <div class="layui-input-inline">
-                <input type="text" name="shelfLife" placeholder="请输入商品保质期" lay-verify="shelfLife" autocomplete="off" class="layui-input">
+                <input type="text" name="shelfLife" placeholder="请输入商品保质期(如：***天" lay-verify="shelfLife" autocomplete="off" class="layui-input">
             </div>
         </div>
     </div>
@@ -134,7 +142,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">存储方法</label>
         <div class="layui-input-block">
-            <input type="text" name="storage" lay-verify="storage" autocomplete="off" placeholder="请输入商品存储方法" class="layui-input">
+            <input type="text" name="storage" lay-verify="storage" autocomplete="off" placeholder="请输入商品存储方法(如：室温存储)" class="layui-input">
         </div>
     </div>
 
@@ -155,8 +163,12 @@
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="submit" lay-filter="demo1" id="submit">提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button id="reset" type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
+    </div>
+
+    <div class="layui-form-item" style="display: none;" id="picture-address">
+        <input type="text" id="confirmUpload" name="confirmUpload" lay-verify="confirmUpload" autocomplete="off" placeholder="请输入商品存储方法(如：室温存储)" class="layui-input">
     </div>
 </form>
 
@@ -218,6 +230,37 @@
                     return "请输入商品存储方法";
                 }
             }
+            ,state:function (value) {
+                if(value=="")
+                    return "请选择商品状态";
+            }
+            ,price:function (value) {
+                var reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+                if(!reg.test(value)) {
+                    return "商品价格格式输入错误";
+                }
+            }
+            ,num:function (value) {
+                var reg = /^\d{1,5}$/;
+                if(!reg.test(value)) {
+                    return "商品数量格式输入错误(数量为0-99999)";
+                }
+            }
+            ,weight:function (value) {
+                var reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+                if(!reg.test(value)) {
+                    return "商品重量格式输入错误";
+                }
+            }
+            ,unit:function (value) {
+                if(value.length<=0) {
+                    return "请输入商品的重量单位";
+                }
+            }
+            ,confirmUpload:function (value) {
+                if(value!=1)
+                    return "请先上传商品";
+            }
         });
 
         //监听指定开关
@@ -230,25 +273,64 @@
 
         //监听提交
         form.on('submit(demo1)', function(data){
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
+            // layer.alert(JSON.stringify(data.field), {
+            //     title: '最终的提交信息'
+            // });
+            var all=getObject(data.field);
+            delete all.file;
+            delete all.picture;
+            delete all.weight;
+            delete all.unit;
+            delete all.confirmUpload;
+
+            console.log(JSON.stringify(all));
+            // $.ajax({
+            //     type: "POST",
+            //     url:  remoteURL+"/Goods/addGoods",
+            //     data: JSON.stringify(all),
+            //     dataType: "application/json;charset=UTF-8",
+            //     contentType:"application/json;charset=UTF-8",
+            //     success: function(data){
+            //         alert(data);
+            //     }
+            // });
+            $.ajax({
+                type : "POST",
+                url : remoteURL+"/Goods/addGoods",
+                data : JSON.stringify(all),
+                contentType : "application/json",
+                dataType : "json",
+                success:function (res) {
+                    if(res==0) {
+                        layer.alert("添加失败", {icon: 6});
+                    }
+                    else {
+						layer.msg("添加成功", {icon: 6});
+                        setTimeout("location.reload()",4000);
+                    }
+                }
             });
+            // alert(JSON.stringify(all));
             return false;
         });
 
         upload.render({
             elem: '#images'
-            ,url: "http://localhost:8080/vegetable14/Picture/upload.do"
+            ,url: remoteURL+"/GoodsPicture/uploadPicture"
             ,auto: true
             ,multiple:true
             ,accept:'image'
             ,size:1024000
             ,exts:'png|jpg|bmp|jpeg|gif'
-            //,multiple: true
-            ,bindAction: '#submit'
+            // ,multiple: true
+            // ,bindAction: '#submit'
             ,done: function(res){
                 console.log(res);
-                alert(res.data);
+                document.getElementById("image-show").innerHTML+=
+                    "<img src=\""+res.data+"\" width=\"100px\" height=\"100px\" />";
+                document.getElementById("picture-address").innerHTML+="<input type=\"hidden\" name=\"picture\" value=\""+res.data+"\" />";
+                document.getElementById("confirmUpload").value="1";
+                // alert(res.data);
             }
             ,error: function(res,data){
                 layer.alert(res+":"+data);
@@ -256,7 +338,37 @@
         });
 
     });
+    //整理上传给后台的数据
+    function getObject(data) {
+        var list=new Array();
+        var prices=document.getElementsByName("price");
+        var nums=document.getElementsByName("num");
+        var weights=document.getElementsByName("weight");
+        var units=document.getElementsByName("unit");
+        for(var i=0;i<prices.length;i++) {
+            var object=new Object();
+            object.id="";
+            object.num=nums[i].value;
+            object.unit=units[i].value;
+            object.price=prices[i].value;
+            object.weight=weights[i].value;
+            list.push(object);
+        }
+        data.listPrice=list;
 
+        var picturesList=new Array();
+        var pictures=document.getElementsByName("picture");
+        for (var i=0;i<pictures.length;i++) {
+            var object=new Object();
+            object.id="";
+            object.address=pictures[i].value;
+            object.goodsId="";
+            picturesList.push(object);
+        }
+        data.list=picturesList;
+
+        return data;
+    }
 </script>
 <script type="text/javascript" >
     function addRow() {
@@ -268,12 +380,24 @@
         var a = y.insertCell(0);
         var b = y.insertCell(1);
         var c = y.insertCell(2);
+        var d = y.insertCell(3);
+        var e = y.insertCell(4);
+        var f = y.insertCell(5);
 
         a.innerHTML="<td><label class=\"layui-form-label\">"+"规格"+(addNum+1)+"</label></label></td>";
         b.innerHTML="<td><div class=\"layui-input-inline\">"+
             "<input type=\"text\" name=\"price\" placeholder=\"请输入价格\" lay-verify=\"price\" autocomplete=\"off\" class=\"layui-input\">"+
             "</div></td>";
-        c.innerHTML="<td>"+
+        c.innerHTML="<td><div class=\"layui-input-inline\">" +
+            "<input type=\"text\" name=\"num\" placeholder=\"请输入数量\" lay-verify=\"num\" autocomplete=\"off\" class=\"layui-input\">" +
+            "</div></td>";
+        d.innerHTML="<td><div class=\"layui-input-inline\">" +
+            "<input type=\"text\" name=\"weight\" placeholder=\"请输入重量\" lay-verify=\"weight\" autocomplete=\"off\" class=\"layui-input\">" +
+            "</div></td>";
+        e.innerHTML="<td><div class=\"layui-input-inline\">" +
+            "<input type=\"text\" name=\"unit\" placeholder=\"请输入单位\" lay-verify=\"unit\" autocomplete=\"off\" class=\"layui-input\">" +
+            "</div></td>";
+        f.innerHTML="<td>"+
             "<a class=\"layui-btn layui-btn-sm layui-btn-normal\" onclick=\"addRow()\">增加</a>"+
             "<a class=\"layui-btn layui-btn-sm layui-btn-danger\" onclick=\"deleteRow('" +y.id+"');\">删除</a>"+
             "</td>";

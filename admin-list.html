@@ -25,7 +25,7 @@
         <div class="layui-inline">
             <div class="layui-input-inline">
                 <xblock>
-                    <button class="layui-btn" onclick="admin_add('添加管理员','admin-add.html','600','500')">
+                    <button class="layui-btn" onclick="admin_add('添加地区','admin-add.html',600,500)">
                         <i class="layui-icon">&#xe608;</i>添加
                     </button>
                     <span class="x-right" style="line-height:40px"></span>
@@ -83,7 +83,7 @@
             // } else
             if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
-                admin_edit('修改管理员','admin-edit.html?adminId='+data.id+"&adminAccount="+data.account+"&adminPassword="+data.password,'600','500');
+                admin_edit('修改管理员','admin-edit.html?adminId='+data.id+"&adminAccount="+data.account+"&adminPassword="+data.password,500,350);
             }
         });
 

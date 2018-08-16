@@ -246,12 +246,12 @@
                     return "商品数量格式输入错误(数量为0-99999)";
                 }
             }
-            ,weight:function (value) {
-                var reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
-                if(!reg.test(value)) {
-                    return "商品重量格式输入错误";
-                }
-            }
+            // ,weight:function (value) {
+            //     var reg = /(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/;
+            //     if(!reg.test(value)) {
+            //         return "商品重量格式输入错误";
+            //     }
+            // }
             ,unit:function (value) {
                 if(value.length<=0) {
                     return "请输入商品的重量单位";

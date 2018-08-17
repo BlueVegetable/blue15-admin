@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        订单详情
+    </title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+    <script src="./js/url.js" charset="utf-8"></script>
+    <script src="./js/function.js" charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="./layui/layui.js" charset="utf-8"></script>
+
+    <script>
+        var id=getParameter(window.location.href,"id");
+        $.ajax({
+            type: "POST",
+            url:  remoteURL+"/OrderForm/selectById",
+            data: {id:id},
+            dataType: "json",
+            success: function(data){
+                init(data,id);
+            }
+        });
+        function init(data,id) {
+            console.log(data);
+            var table = document.getElementById("mytable");
+            table.innerHTML="";
+            table.innerHTML+=getTableItem("ID",id);
+            table.innerHTML+=getTableItem("收件人",data.userId);
+            table.innerHTML+=getTableItem("订单生成时间",data.createTime);
+            table.innerHTML+=getTableItem("订单状态",getState(data.state));
+            table.innerHTML+=getTableItem("订单商品","查不出");
+            table.innerHTML+=getTableItem("总计",data.sum);
+            table.innerHTML+=getTableItem("收货地址",data.addressId);
+            table.innerHTML+=getTableItem("备注",data.note);
+        }
+        function getTableItem(key,value) {
+            if(value==null)
+                value="";
+            return "<tr><td style='width:200px;'>"+key+"</td><td>"+value+"</td></tr>"
+        }
+        function getState(state) {
+            switch(state) {
+                case 0:return "退货";
+                case 1:return "待支付";
+                case 2:return "待发货";
+                case 3:return "待收货";
+                case 4:return "完结";
+                default:return "失效";
+            }
+        }
+    </script>
+</head>
+<body>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6">
+            <div class="layui-card" style="width:500px;">
+                <div class="layui-card-header"><h1 style="font-size: 20px;font-weight: 800;">订单详情</h1></div>
+                <table class="layui-table" id="mytable" style="height:auto;word-wrap:break-word;word-break:break-all;">
+                    <tbody>
+                    <tr>
+                        <td style="width:100px;">1</td>
+                        <td>admin</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

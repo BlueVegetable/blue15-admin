@@ -54,7 +54,8 @@
 
         </script>
         <script type="text/html" id="bar">
-            <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+            <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看详情</a>
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit-state">修改状态</a>
             <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
         </script>
         <script>
@@ -69,10 +70,21 @@
                     ,page:true
                     ,cols: [[
                         {field:"id", width:100, title: '订单ID',align:"center", sort: true}
-                        ,{field:"userId", width:150, title: '买家名称',align:"center"}
+                        ,{field:"username", width:150, title: '买家名称',align:"center"}
                         ,{field:"createTime", title: '创建时间'}
+                        ,{field:"state" , title:"订单状态" , templet:function (data) {
+                                switch(data.state) {
+                                    case 0:return "退货";
+                                    case 1:return "待支付";
+                                    case 2:return "待发货";
+                                    case 3:return "待收货";
+                                    case 4:return "完结";
+                                    default:return "失效";
+                                }
+                            }
+                        }
                         ,{field:"note",width:150, title: '备注'}
-                        ,{width:178, align:'center', toolbar: '#bar',title:'操作'}
+                        ,{align:'center', toolbar: '#bar',title:'操作'}
                     ]]
                     ,limits:['10']
                 });
@@ -84,11 +96,10 @@
                 //监听工具条
                 table.on('tool(demo)', function(obj){
                     var data = obj.data;
-                    // if(obj.event === 'detail'){
-                    //     layer.msg('ID：'+ data.id + ' 的查看操作');
-                    //     // order_show('修改咨询条目','order-show.html?id='data.id,'600','500');
-                    // } else
-                    if(obj.event === 'del'){
+                    if(obj.event === 'detail'){
+                        // layer.msg('ID：'+ data.id + ' 的查看操作');
+                        order_show('查看订单详情','order-detail.html?id='+data.id,540,480);
+                    } else if(obj.event === 'del'){
                         layer.msg("此功能尚未添加");
                         // layer.confirm('真的删除行么', function(index){
                         //     obj.del();
@@ -106,37 +117,10 @@
                         //     });
                         //     layer.close(index);
                         // });
+                    } else if(obj.event === "edit-state") {
+                        order_state_edit('修改订单状态','order-state-edit.html?id='+data.id+"&state="+data.state+"&cityId="+cityId,400,375);
                     }
                 });
-
-                // var $ = layui.$, active = {
-                //     getCheckData: function(){ //获取选中数据
-                //         var checkStatus = table.checkStatus('idTest')
-                //             ,data = checkStatus.data;
-                //         layer.alert(JSON.stringify(data));
-                //     }
-                //     ,getCheckLength: function(){ //获取选中数目
-                //         var checkStatus = table.checkStatus('idTest')
-                //             ,data = checkStatus.data;
-                //         layer.msg('选中了：'+ data.length + ' 个');
-                //     }
-                //     ,isAll: function(){ //验证是否全选
-                //         var checkStatus = table.checkStatus('idTest');
-                //         layer.msg(checkStatus.isAll ? '全选': '未全选')
-                //     }
-                // };
-                //
-                // $('.demoTable .layui-btn').on('click', function(){
-                //     var type = $(this).data('type');
-                //     active[type] ? active[type].call(this) : '';
-                // });
-
-                // form.on('submit(search)', function(data){
-                //     layer.alert(JSON.stringify(data.field), {
-                //         title: '最终的提交信息'
-                //     });
-                //     return false;
-                // });
 
                 var $ = layui.$, active = {
                     reload: function(){
@@ -152,7 +136,7 @@
                             ,where: {
                                 cityId:cityId,
                                 id: idReload.val(),
-                                name:nameReload.val(),
+                                username:nameReload.val()
                             }
                         });
                     }
@@ -171,9 +155,12 @@
             function order_add(title,url,w,h){
                 x_admin_show(title,url,w,h);
             }
-            // function order_show(title,url,w,h){
-            //     x_admin_show(title,url,w,h);
-            // }
+            function order_state_edit(title, url, w, h) {
+                x_admin_show(title,url,w,h);
+            }
+            function order_show(title, url, w, h) {
+                x_admin_show(title,url,w,h);
+            }
         </script>
     </body>
 </html>

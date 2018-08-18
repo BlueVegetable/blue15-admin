@@ -15,6 +15,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
     <script src="./js/index.js"></script>
+    <script>
+        var cityId=1;
+    </script>
     <style>
         .box {
             height: 850px;
@@ -58,14 +61,16 @@
     var url1 = 'http://111.230.97.64:8080//OrderForm/selectWeek';
     var url2 = 'http://114.67.130.29:8080/electric/main/list4.do';
 
+    var date = new Date();
+    date=date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+
     var Top = echarts.init(document.getElementById('mainTop'));
     var Bottom = echarts.init(document.getElementById('mainBottom'));
 
     Promise.all([
-        $.post(url1, { createTime: '2018-07-09', "cityId" : 1 }),
+        $.post(url1, { createTime: date, cityId : 1 }),
         $.post(url2, { month: '2018-06' }),
     ]).then(res => {
-        console.log(res);
         var name1 = [], number1 = [];
         var name2 = [], number3 = [], number4 = [];
 
@@ -99,22 +104,28 @@
 
         laydate.render({
             elem: '#month1',
-            type: 'month',
-            change: function (date) {
+            type: 'date',
+            done: function (value,date) {
+                var date_string=date.year+"-"+date.month+"-"+date.date;
                 Promise.all([
-                    $.post(url1, { month: date }),
+                    $.post(url1,{ cityId:cityId , createTime:date_string })
                 ]).then(res => {
-                    var name1 = [], number1 = []
-                    res[0].forEach(e => {
-                        name1.push(e.changeCategory);
-                number1.push(e.monthNumber);
-            })
-                options1.series[0].data = number1;
-                options1.xAxis[0].data = name1;
-                Top.setOption(options1);
-            }).catch(err => {
+                    var name1 = [],number1=[];
+                    name1.push("星期日");name1.push("星期一");name1.push("星期二");name1.push("星期三");
+                    name1.push("星期四");name1.push("星期五");name1.push("星期六");
+                    for(var i=0;i<7;i++) {
+                        if(!res[0][i])
+                            res[0][i]=0;
+                    }
+                    for(var i=0;i<7;i++) {
+                        number1.push(res[0][i]);
+                    }
+                    options1.series[0].data=number1;
+                    options1.xAxis[0].data=name1;
+                    Top.setOption(options1);
+                }).catch(err =>{
                     console.log(err)
-            })
+                });
             }
         });
 

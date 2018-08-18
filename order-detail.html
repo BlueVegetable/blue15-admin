@@ -36,7 +36,14 @@
             table.innerHTML+=getTableItem("收件人",data.userId);
             table.innerHTML+=getTableItem("订单生成时间",data.createTime);
             table.innerHTML+=getTableItem("订单状态",getState(data.state));
-            table.innerHTML+=getTableItem("订单商品","查不出");
+            for(var i=1;i<=data.list.length;i++) {
+                table.innerHTML+=getTableItem("订单商品"+i ,
+                    "<a style='cursor: pointer;' onclick='layerconfirm("+JSON.stringify(data.list[i-1])+")'>"+
+                    "<span style='color:blue'>"+
+                    data.list[i-1].goodsId+"</span></a>&emsp;"+
+                    data.list[i-1].num+data.list[i-1].price.unit
+                );
+            }
             table.innerHTML+=getTableItem("总计",data.sum);
             table.innerHTML+=getTableItem("收货地址",data.addressId);
             table.innerHTML+=getTableItem("备注",data.note);
@@ -55,6 +62,27 @@
                 case 4:return "完结";
                 default:return "失效";
             }
+        }
+        function layerconfirm(data) {
+            layui.use('layer',function () {
+                var layer = layui.layer;
+
+                layer.open({
+                    type: 1
+                    ,title: false //不显示标题栏
+                    ,closeBtn: false
+                    ,area: '300px;'
+                    ,shade: 0.8
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,btn: ['朕知道了']
+                    ,btnAlign: 'c'
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: getOrderDetail(data)
+                    ,success: function(layero){
+                        //无状态
+                    }
+                });
+            });
         }
     </script>
 </head>
@@ -79,4 +107,20 @@
 </div>
 
 </body>
+
+<script>
+    function getOrderDetail(data) {
+        var string="<table class=\"layui-table\" id=\"mytable\" " +
+            "style=\"height:auto;word-wrap:break-word;word-break:break-all;\">" +
+            "<tbody>" +
+            "<tr><td style=\"width:100px;\">商品名</td><td>"+data.goodsId+"</td></tr>" +
+            "<tr><td style=\"width:100px;\">单价</td><td>"+data.price.price+" 元/"+data.price.unit+"</td></tr>" +
+            "<tr><td style=\"width:100px;\">购买数量</td><td>"+data.num+data.price.unit+"</td></tr>" +
+            "<tr><td style=\"width:100px;\">商品重量</td><td>"+data.price.weight+"</td></tr>" +
+            "</tbody>" +
+            "</table>";
+        return string;
+    }
+</script>
+
 </html>

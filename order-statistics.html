@@ -68,11 +68,11 @@
     var Bottom = echarts.init(document.getElementById('mainBottom'));
 
     Promise.all([
-        $.post(url1, { createTime: date, cityId : 1 }),
+        $.post(url1, { createTime: date, cityId : cityId }),
         $.post(url2, { month: '2018-06' }),
     ]).then(res => {
         var name1 = [], number1 = [];
-        var name2 = [], number3 = [], number4 = [];
+        var name2 = [], number3 = [];
 
         name1.push("星期日");name1.push("星期一");name1.push("星期二");name1.push("星期三");
         name1.push("星期四");name1.push("星期五");name1.push("星期六");
@@ -86,12 +86,10 @@
         res[1].forEach(e => {
             name2.push(e.changeCategory);
         number3.push(e.monthNumber);
-        number4.push(e.number);
         })
         options1.series[0].data = number1;
         options1.xAxis[0].data = name1;
         options2.series[0].data = number3;
-        options2.series[1].data = number4;
         options2.xAxis[0].data = name2;
         Top.setOption(options1);
         Bottom.setOption(options2);
@@ -136,11 +134,10 @@
                 Promise.all([
                     $.post(url2, { month: date }),
                 ]).then(res => {
-                    var name2 = [], number3 = [], number4 = []
+                    var name2 = [], number3 = []
                     res[0].forEach(e => {
                         name2.push(e.changeCategory);
                 number3.push(e.monthNumber);
-                number4.push(e.number)
             })
                 options2.series[0].data = number3;
                 options2.series[1].data = number4;

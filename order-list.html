@@ -58,6 +58,7 @@
             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit-state">修改状态</a>
             <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
         </script>
+        <script src="./js/function.js" charset="utf-8"></script>
         <script>
             layui.use(['element','layer','table','form', 'layedit', 'laydate'], function(){
                 var table = layui.table;
@@ -69,22 +70,28 @@
                     ,url:remoteURL+"/OrderForm/selectAll?cityId="+cityId
                     ,page:true
                     ,cols: [[
-                        {field:"id", width:100, title: '订单ID',align:"center", sort: true}
+                        {field:"id", width:100, title: '订单号',align:"center", sort: true}
+                        ,{field:"sum",width:100,title:"总金额",align:"center", templet:function (data) {
+                                return data.sum+"元"
+                            }
+                        }
                         ,{field:"username", width:150, title: '买家名称',align:"center"}
+                        ,{field:"addressId",title:"收货地址",align:"center"}
                         ,{field:"createTime", title: '创建时间'}
                         ,{field:"state" , title:"订单状态" , templet:function (data) {
                                 switch(data.state) {
-                                    case 0:return "退货";
-                                    case 1:return "待支付";
+                                    case 1:return "待付款";
                                     case 2:return "待发货";
                                     case 3:return "待收货";
-                                    case 4:return "完结";
+                                    case 4:return "待评价";
+                                    case 5:return "失效";
+                                    case 6:return "退款";
                                     default:return "失效";
                                 }
                             }
                         }
                         ,{field:"note",width:150, title: '备注'}
-                        ,{align:'center', toolbar: '#bar',title:'操作'}
+                        ,{align:'center',width:210 , toolbar: '#bar',title:'操作'}
                     ]]
                     ,limits:['10']
                 });

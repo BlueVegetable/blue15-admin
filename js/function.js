@@ -20,3 +20,14 @@ function getParameter(href,key) {
     }
     return "";
 }
+function getOrderState(state) {
+    switch(state) {
+        case 1:return "待付款";
+        case 2:return "待发货";
+        case 3:return "待收货";
+        case 4:return "待评价";
+        case 5:return "失效";
+        case 6:return "退款";
+        default:return "失效";
+    }
+}

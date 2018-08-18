@@ -38,106 +38,110 @@
 </head>
 
 <body>
-    <div class="box">
-        <input type="text" class="layui-input" id="month1" placeholder="请选择月份">
-        <div id="mainTop"></div>
-        <hr>
-        <input type="text" class="layui-input" id="month2" placeholder="请选择月份">
-        <div id="mainBottom"></div>
+<form class="layui-form" action="">
+    <div class="layui-inline">
+        <label class="layui-form-label">验证日期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="month1" placeholder="请选择月份">
+        </div>
     </div>
+</form>
+<div class="box">
+    <div id="mainTop"></div>
+    <hr>
+    <input type="text" class="layui-input" id="month2" placeholder="请选择月份">
+    <div id="mainBottom"></div>
+</div>
 
-    <script src="./layui/layui.js" charset="utf-8"></script>
-    <script>
-        var url1 = 'http://114.67.130.29:8080/electric/main/list2.do';
-        var url2 = 'http://114.67.130.29:8080/electric/main/list4.do';
+<script src="./layui/layui.js" charset="utf-8"></script>
+<script>
+    var url1 = 'http://111.230.97.64:8080//OrderForm/selectWeek';
+    var url2 = 'http://114.67.130.29:8080/electric/main/list4.do';
 
-        var Top = echarts.init(document.getElementById('mainTop'));
-        var Bottom = echarts.init(document.getElementById('mainBottom'));
+    var Top = echarts.init(document.getElementById('mainTop'));
+    var Bottom = echarts.init(document.getElementById('mainBottom'));
 
-        Promise.all([
-            $.post(url1, { month: '2018-06' }),
-            $.post(url2, { month: '2018-06' }),
-        ]).then(res => {
-            console.log(res)
-            var name1 = [], number1 = [], number2 = []
-            var name2 = [], number3 = [], number4 = []
-            /*res[0].forEach(e => {
-                name1.push(e.changeCategory);
+    Promise.all([
+        $.post(url1, { createTime: '2018-07-09', "cityId" : 1 }),
+        $.post(url2, { month: '2018-06' }),
+    ]).then(res => {
+        console.log(res);
+        var name1 = [], number1 = [];
+        var name2 = [], number3 = [], number4 = [];
+
+        name1.push("星期日");name1.push("星期一");name1.push("星期二");name1.push("星期三");
+        name1.push("星期四");name1.push("星期五");name1.push("星期六");
+        for(var i=0;i<7;i++) {
+            if(!res[0][i])
+                res[0][i]=0;
+        }
+        for(var i=0;i<7;i++) {
+            number1.push(res[0][i]);
+        }
+        res[1].forEach(e => {
+            name2.push(e.changeCategory);
+        number3.push(e.monthNumber);
+        number4.push(e.number);
+        })
+        options1.series[0].data = number1;
+        options1.xAxis[0].data = name1;
+        options2.series[0].data = number3;
+        options2.series[1].data = number4;
+        options2.xAxis[0].data = name2;
+        Top.setOption(options1);
+        Bottom.setOption(options2);
+        }).catch(err => {
+            console.log(err)
+        });
+
+    layui.use('laydate',function () {
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#month1',
+            type: 'month',
+            change: function (date) {
+                Promise.all([
+                    $.post(url1, { month: date }),
+                ]).then(res => {
+                    var name1 = [], number1 = []
+                    res[0].forEach(e => {
+                        name1.push(e.changeCategory);
                 number1.push(e.monthNumber);
-                number2.push(e.number)
-            })*/
-			for(var i=0;i<res[0].length;i++) {
-				name1.push(res[0][i].changeCategory);
-				number1.push(res[0][i].monthNumber);
-				number2.push(res[0][i].number);
-			}
-            res[1].forEach(e => {
-                name2.push(e.changeCategory);
+            })
+                options1.series[0].data = number1;
+                options1.xAxis[0].data = name1;
+                Top.setOption(options1);
+            }).catch(err => {
+                    console.log(err)
+            })
+            }
+        });
+
+        laydate.render({
+            elem: '#month2',
+            type: 'month',
+            change: function (date) {
+                Promise.all([
+                    $.post(url2, { month: date }),
+                ]).then(res => {
+                    var name2 = [], number3 = [], number4 = []
+                    res[0].forEach(e => {
+                        name2.push(e.changeCategory);
                 number3.push(e.monthNumber);
                 number4.push(e.number)
             })
-            options1.series[0].data = number1;
-            options1.series[1].data = number2;
-            options1.xAxis[0].data = name1;
-            options2.series[0].data = number3;
-            options2.series[1].data = number4;
-            options2.xAxis[0].data = name2;
-            Top.setOption(options1);
-            Bottom.setOption(options2);
-        }).catch(err => {
-            console.log(err)
-        })
-
-        layui.use('laydate',function () {
-            var laydate = layui.laydate;
-
-            laydate.render({
-                elem: '#month1',
-                type: 'month',
-                change: function (date) {
-                    Promise.all([
-                        $.post(url1, { month: date }),
-                    ]).then(res => {
-                        var name1 = [], number1 = [], number2 = []
-                        res[0].forEach(e => {
-                            name1.push(e.changeCategory);
-                    number1.push(e.monthNumber);
-                    number2.push(e.number)
-                })
-                    options1.series[0].data = number1;
-                    options1.series[1].data = number2;
-                    options1.xAxis[0].data = name1;
-                    Top.setOption(options1);
-                }).catch(err => {
-                        console.log(err)
-                })
-                }
-            });
-
-            laydate.render({
-                elem: '#month2',
-                type: 'month',
-                change: function (date) {
-                    Promise.all([
-                        $.post(url2, { month: date }),
-                    ]).then(res => {
-                        var name2 = [], number3 = [], number4 = []
-                        res[0].forEach(e => {
-                            name2.push(e.changeCategory);
-                    number3.push(e.monthNumber);
-                    number4.push(e.number)
-                })
-                    options2.series[0].data = number3;
-                    options2.series[1].data = number4;
-                    options2.xAxis[0].data = name2;
-                    Bottom.setOption(options2);
-                }).catch(err => {
-                        console.log(err)
-                })
-                }
-            });
+                options2.series[0].data = number3;
+                options2.series[1].data = number4;
+                options2.xAxis[0].data = name2;
+                Bottom.setOption(options2);
+            }).catch(err => {
+                    console.log(err)
+            })
+            }
         });
-    </script>
+    });
+</script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@ options1 = {
         trigger: 'axis'
     },
     legend: {
-        data: ['当月异动', '累计异动'],
+        data: ['订单数量'],
         textStyle: {
             color: '#000'
         },
@@ -40,24 +40,7 @@ options1 = {
     ],
     series: [
         {
-            name: '当月异动',
-            type: 'bar',
-            itemStyle: {
-                color: 'rgb(78,238,148)'
-            },
-            label: {
-                normal: {
-                    show: true,
-                    textStyle: {
-                        color: '#000'
-                    }
-                }
-            },
-            barWidth: '18%',
-            data: [54.77, 35.81, 57.91, 41.04, 40.17, 93.26, 79.90, 62.84, 37.74, 34.50, 61.77]
-        },
-        {
-            name: '累计异动',
+            name: '订单数量',
             type: 'bar',
             itemStyle: {
                 color: 'rgb(0,229,238)'

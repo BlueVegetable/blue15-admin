@@ -15,8 +15,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/4.1.0/echarts.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
     <script src="./js/index.js"></script>
+    <script src="./js/url.js"></script>
+    <script src="./js/function.js"></script>
     <script>
-        var cityId=1;
+        var cityId=getParameter(window.location.href,"cityId");
     </script>
     <style>
         .box {
@@ -43,33 +45,45 @@
 <body>
 <form class="layui-form" action="">
     <div class="layui-inline">
-        <label class="layui-form-label">验证日期</label>
+        <label class="layui-form-label">统计周次</label>
         <div class="layui-input-inline">
-            <input type="text" class="layui-input" id="month1" placeholder="请选择月份">
+            <input type="text" class="layui-input" id="month1" placeholder="请选择日期">
         </div>
     </div>
 </form>
-<div class="box">
+<div>
     <div id="mainTop"></div>
-    <hr>
-    <input type="text" class="layui-input" id="month2" placeholder="请选择月份">
+</div>
+<hr>
+<form class="layui-form" action="">
+    <div class="layui-inline">
+        <label class="layui-form-label">统计年份</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="month2" placeholder="请选择日期">
+        </div>
+    </div>
+</form>
+<div>
     <div id="mainBottom"></div>
 </div>
 
 <script src="./layui/layui.js" charset="utf-8"></script>
 <script>
-    var url1 = 'http://111.230.97.64:8080//OrderForm/selectWeek';
-    var url2 = 'http://114.67.130.29:8080/electric/main/list4.do';
+    var url1 = remoteURL+'/OrderForm/selectWeek';
+    var url2 = remoteURL+'/OrderForm/selectYear';
 
     var date = new Date();
-    date=date.getFullYear()+"-"+date.getMonth()+"-"+date.getDate();
+    date=date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+
+    $("#month1").val(date);
+    $("#month2").val(new Date().getFullYear());
 
     var Top = echarts.init(document.getElementById('mainTop'));
     var Bottom = echarts.init(document.getElementById('mainBottom'));
 
     Promise.all([
         $.post(url1, { createTime: date, cityId : cityId }),
-        $.post(url2, { month: '2018-06' }),
+        $.post(url2, { cityId: cityId, createTime: date }),
     ]).then(res => {
         var name1 = [], number1 = [];
         var name2 = [], number3 = [];
@@ -83,10 +97,15 @@
         for(var i=0;i<7;i++) {
             number1.push(res[0][i]);
         }
-        res[1].forEach(e => {
-            name2.push(e.changeCategory);
-        number3.push(e.monthNumber);
-        })
+
+        for(var i=0;i<12;i++) {
+            name2.push((i+1)+"月");
+            if(!res[1][i])
+                res[1][i]=0;
+        }
+        for(var i=0;i<12;i++) {
+            number3.push(res[1][i]);
+        }
         options1.series[0].data = number1;
         options1.xAxis[0].data = name1;
         options2.series[0].data = number3;
@@ -129,23 +148,27 @@
 
         laydate.render({
             elem: '#month2',
-            type: 'month',
-            change: function (date) {
+            type: 'year',
+            done: function (value,date) {
+                var date_string=date.year+"-1-1";
                 Promise.all([
-                    $.post(url2, { month: date }),
+                    $.post(url2,{ cityId:cityId , createTime:date_string })
                 ]).then(res => {
-                    var name2 = [], number3 = []
-                    res[0].forEach(e => {
-                        name2.push(e.changeCategory);
-                number3.push(e.monthNumber);
-            })
-                options2.series[0].data = number3;
-                options2.series[1].data = number4;
-                options2.xAxis[0].data = name2;
-                Bottom.setOption(options2);
-            }).catch(err => {
-                    console.log(err)
-            })
+                    var name2 = [],number3=[];
+                    for(var i=0;i<12;i++) {
+                        if(!res[0][i])
+                            res[0][i]=0;
+                        name2.push((i+1)+"月");
+                    }
+                    for(var i=0;i<12;i++) {
+                        number3.push(res[0][i]);
+                    }
+                    options2.series[0].data=number3;
+                    options2.xAxis[0].data=name2;
+                    Bottom.setOption(options2);
+            }).catch(err =>{
+                    console.log(err);
+            });
             }
         });
     });

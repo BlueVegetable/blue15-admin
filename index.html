@@ -21,7 +21,8 @@
                 getCityIdFromUrl();
                 document.getElementById("banner").setAttribute("_href","./banner-list.html?cityId="+cityId);
                 document.getElementById("order").setAttribute("_href","./order-list.html?cityId="+cityId);
-                document.getElementById("products-add").setAttribute("_href","./products-add.html?cityId="+cityId)
+                document.getElementById("products-add").setAttribute("_href","./products-add.html?cityId="+cityId);
+                document.getElementById("order-statistics").setAttribute("_href","./order-statistics.html?cityId="+cityId);
             };
             function getCityIdFromUrl() {
                 var href=window.location.href;
@@ -128,7 +129,7 @@
                             <dl class="layui-nav-child">
                                 <dd class="">
                                 <dd class="">
-                                    <a href="javascript:;" id="order" _href="./order-statistics.html">
+                                    <a href="javascript:;" id="order-statistics" _href="./order-statistics.html">
                                         <cite>订单统计</cite>
                                     </a>
                                 </dd>

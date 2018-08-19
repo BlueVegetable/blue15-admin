@@ -26,26 +26,42 @@
             $(document).ready(function(){
                 var cityId=getCityIdFromUrl(window.location.href);
                 document.getElementById("add-btn").onclick=function () {
-                    banner_add('添加轮播图','banner-add.html?cityId='+cityId,'600','500');
+                    banner_add('添加轮播图','banner-add.html?cityId='+cityId,600,500);
                 };
-                $.ajax({
-                    type: "POST",
-                    url:  remoteURL+"/Banner/selectAll",
-                    data: {cityId:cityId},
-                    dataType: "json",
-                    success: function(data){
-                        var tbody=document.getElementById("x-img");
-                        tbody.innerHTML="";
-                        for(var i=0;i<data.length;i++)
-                            tbody.innerHTML+=show(data[i],i);
-                    }
-                });
+                if(cityId!=""){
+                    $.ajax({
+                        type: "POST",
+                        url:  remoteURL+"/Banner/selectAll",
+                        data: {cityId:cityId},
+                        dataType: "json",
+                        success: function(data){
+                            var tbody=document.getElementById("x-img");
+                            tbody.innerHTML="";
+                            for(var i=0;i<data.length;i++)
+                                tbody.innerHTML+=show(data[i],i);
+                        }
+                    });
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url:  remoteURL+"/Banner/selectAll",
+                        data: {},
+                        dataType: "json",
+                        success: function(data){
+                            var tbody=document.getElementById("x-img");
+                            tbody.innerHTML="";
+                            for(var i=0;i<data.length;i++)
+                                tbody.innerHTML+=show(data[i],i);
+                        }
+                    });
+                    $("#add-btn").hide();
+                }
             });
             function show(data,number){
                 var string="";
                 string+="<tr>"+
                     "<td>"+data.id+"</td>"+
-                    "<td>"+"<img  src='http://"+data.address+"' width='100' alt=''>点击图片试试"+"</td>";
+                    "<td>"+"<img  src="+data.address+" width='100' alt=''>点击图片试试"+"</td>";
                 if(data.state==1)
                     string+="<td><span class='myspan' state='1' location='"+number+"'>显示</span></td>";
                 else

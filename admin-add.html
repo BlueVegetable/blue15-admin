@@ -60,8 +60,8 @@
             <label for="role" class="layui-form-label">
                 <span class="x-red">*</span>地址
             </label>
-            <div class="layui-input-inline">
-                <select name="cityId" id="cityId">
+            <div class="layui-input-inline" >
+                <select name="cityId" id="cityId" lay-verify="required" >
                     <option value="">请选择地址</option>
                 </select>
             </div>
@@ -124,27 +124,34 @@
         //监听提交
         form.on('submit(add)', function(data){
             console.log(data);
-            $.post(document.getElementById("myform").action,data.field,function(res){
-                if(res==1) {
-                    var table=parent.layui.table;
-                    table.reload('admin-list', {
-                        url: remoteURL+"/Admin/selectAll"
-                    });
+            $.ajax({
+                type : "POST",
+                url : remoteURL+"/Admin/addAdmin",
+                data : JSON.stringify(data.field),
+                contentType : "application/json",
+                dataType : "json",
+                success:function (res) {
+                    if(res==1) {
+                        // var table=parent.layui.table;
+                        // table.reload('admin-list', {
+                        //     url: remoteURL+"/Admin/selectAll"
+                        // });
 
-                    layer.alert("添加成功", {icon: 6},function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                    });
-                }
-                else {
-                    layer.alert("添加失败", {icon: 6},function () {
-                        // 获得frame索引
-                        var index = parent.layer.getFrameIndex(window.name);
-                        //关闭当前frame
-                        parent.layer.close(index);
-                    });
+                        layer.alert("添加成功", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                        });
+                    }
+                    else {
+                        layer.alert("添加失败", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                        });
+                    }
                 }
             });
             return false;

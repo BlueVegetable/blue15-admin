@@ -3,7 +3,7 @@ options1 = {
         trigger: 'axis'
     },
     legend: {
-        data: ['订单数量'],
+        data: ['订单总金额'],
         textStyle: {
             color: '#000'
         },
@@ -40,7 +40,7 @@ options1 = {
     ],
     series: [
         {
-            name: '订单数量',
+            name: '订单总金额',
             type: 'bar',
             itemStyle: {
                 color: 'rgb(0,229,238)'
@@ -64,7 +64,7 @@ options2 = {
         trigger: 'axis'
     },
     legend: {
-        data: ['订单数量'],
+        data: ['订单总金额'],
         textStyle: {
             color: '#000'
         },
@@ -99,7 +99,7 @@ options2 = {
     ],
     series: [
         {
-            name: '订单数量',
+            name: '订单总金额',
             type: 'bar',
             itemStyle: {
                 color: 'rgb(0,229,238)'

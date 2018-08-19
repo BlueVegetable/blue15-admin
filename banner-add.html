@@ -42,21 +42,32 @@
                 success:function(res){
                     document.getElementById("dataForm").innerHTML+="";
                     document.getElementById("path").value=res;
-                    document.getElementById("img").src="http://"+res;
+                    document.getElementById("img").src=res;
                     document.getElementById("imgdiv").style.display="block";
                     renderForm();
                 },
                 error:function(res) {
-                    alert(JSON.stringify(formData));
-                    layer.alert(JSON.stringify(res));
+                    console.log(res);
+                    layer.alert("上传失败");
                 }
             });
         }
         window.onload=function(){
-            var cityId=getCityIdFromUrl(window.location.href);
-            document.getElementById("myform").action=remoteURLTrue+"/Banner/uploadPicture";
+            var cityId=getParameter(window.location.href,"cityId");
+            document.getElementById("myform").action=remoteURL+"/Banner/uploadPicture";
             document.getElementById("cityId").value=cityId;
             document.getElementById("city-span").innerHTML=cityId;
+
+            if(cityId!=null&&cityId!="") {
+                $.ajax({
+                    type: "POST",
+                    url:  remoteURL+"/Area/selectById",
+                    data: {cityId:cityId},
+                    success: function(data){
+                        document.getElementById("city-span").innerHTML=data;
+                    }
+                });
+            }
         };
         function renderForm(){
             layui.use('form', function(){
@@ -77,7 +88,7 @@
         </label>
         <div class="layui-input-inline" style="text-align: center;">
             <button onclick="document.getElementById('file').click()" class="myButton" >上传图片</button>
-            <form id="myform" enctype="multipart/form-data" method="post" action="http://111.230.97.64:8080/Banner/uploadPicture">
+            <form id="myform" enctype="multipart/form-data" method="post" >
                 <input type="file" id="file" name="file" style="display:none;" />
                 <script>
                     var upload = document.getElementById('myform');

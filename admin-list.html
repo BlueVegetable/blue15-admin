@@ -25,7 +25,7 @@
         <div class="layui-inline">
             <div class="layui-input-inline">
                 <xblock>
-                    <button class="layui-btn" onclick="admin_add('添加地区','admin-add.html',600,500)">
+                    <button class="layui-btn" onclick="admin_add('添加二级管理员','admin-add.html',600,500)">
                         <i class="layui-icon">&#xe608;</i>添加
                     </button>
                     <span class="x-right" style="line-height:40px"></span>
@@ -60,11 +60,7 @@
                 {field:'id', width:100, title: 'ID',align:"center", sort: true}
                 ,{field:'account', width:150, title: '管理员名',align:"center"}
                 ,{field:'password', title: '密码'}
-                ,{field:'cityId', width:150, title: '所在城市',templet:function(data) {
-                        var cityName="";
-                        return data.cityId;
-                    }
-                }
+                ,{field:'cityId', width:150, title: '所在城市'}
                 ,{fixed: 'right', width:178, align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
@@ -83,6 +79,7 @@
             // } else
             if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
+                data.account=encodeURI(data.account);
                 admin_edit('修改管理员','admin-edit.html?adminId='+data.id+"&adminAccount="+data.account+"&adminPassword="+data.password,500,350);
             }
         });

@@ -57,11 +57,10 @@
             ,url:remoteURL+"/Admin/selectAll"
             ,page:true
             ,cols: [[
-                {field:'id', width:100, title: 'ID',align:"center", sort: true}
-                ,{field:'account', width:150, title: '管理员名',align:"center"}
-                ,{field:'password', title: '密码'}
-                ,{field:'cityId', width:150, title: '所在城市'}
-                ,{fixed: 'right', width:178, align:'center', toolbar: '#bar',title:'操作'}
+                {field:'id', title: 'ID',align:"center", sort: true}
+                ,{field:'account', title: '管理员名',align:"center"}
+                ,{field:'cityId', title: '所在城市'}
+                ,{align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
         });

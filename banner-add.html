@@ -39,7 +39,17 @@
                 data: formData,
                 processData: false,
                 contentType: false,
+                beforeSend:function() {
+                    layui.use('layer',function () {
+                        var layer=layui.layer;
+                        layer.load();
+                    });
+                },
                 success:function(res){
+                    layui.use('layer',function () {
+                        var layer = layui.layer;
+                        layer.closeAll('loading'); //关闭loading
+                    });
                     document.getElementById("dataForm").innerHTML+="";
                     document.getElementById("path").value=res;
                     document.getElementById("img").src=res;

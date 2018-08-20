@@ -49,6 +49,36 @@
 
     <div class="layui-form-item">
         <div class="layui-inline">
+            <label class="layui-form-label">商品类别</label>
+            <div class="layui-input-inline">
+                <select name="bigType" lay-filter="bigType" lay-search="">
+                    <option value="">请选择大类</option>
+                    <option value="1">羊兔专区</option>
+                    <option value="2">水产专区</option>
+                    <option value="3">调理串料</option>
+                    <option value="4">品牌专区</option>
+                    <option value="5">鸭鹅专区</option>
+                    <option value="6">猪肉专区</option>
+                    <option value="7">鸡鸽专区</option>
+                    <option value="8">牛肉专区</option>
+                    <option value="9">腌熏专区</option>
+                    <option value="10">火锅专区</option>
+                    <option value="11">米面果蔬</option>
+                    <option value="12">菜系专区</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <select name="smallType" id="smallType" lay-filter="required" lay-search="">
+                    <option value="">请选择二级类</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
             <label class="layui-form-label">请上传图片</label>
             <div class="layui-input-inline">
                 <div class="layui-upload">
@@ -168,7 +198,7 @@
     </div>
 
     <div class="layui-form-item" style="display: none;" id="picture-address">
-        <input type="text" id="confirmUpload" name="confirmUpload" lay-verify="confirmUpload" autocomplete="off" placeholder="请输入商品存储方法(如：室温存储)" class="layui-input">
+        <input type="text" id="confirmUpload" name="confirmUpload" lay-verify="confirmUpload" >
     </div>
 </form>
 
@@ -263,6 +293,22 @@
             }
         });
 
+        form.on('select(bigType)',function (data) {
+            $.ajax({
+                type: "POST",
+                url:  remoteURL+"/SmallType/selectByBigId",
+                data: {bigId:data.value},
+                dataType: "json",
+                success: function(value){
+                    document.getElementById("smallType").innerHTML="";
+                    for(var i=0;i<value.length;i++) {
+                        $("#smallType").append("<option value='"+value[i].id+"'>"+value[i].name+"</option>");
+                    }
+                    form.render('select');
+                }
+            });
+        });
+
         //监听指定开关
         form.on('switch(switchTest)', function(data){
             layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
@@ -282,6 +328,8 @@
             delete all.weight;
             delete all.unit;
             delete all.confirmUpload;
+            delete all.smallType;
+            delete all.bigType;
 
             console.log(JSON.stringify(all));
             // $.ajax({
@@ -370,6 +418,12 @@
             picturesList.push(object);
         }
         data.list=picturesList;
+
+        var listType=new Object();
+        listType.typeId=document.getElementById("smallType").value;
+        listType.id="";
+        listType.goodsId="";
+        data.listType=listType;
 
         return data;
     }

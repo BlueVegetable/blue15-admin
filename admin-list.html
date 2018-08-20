@@ -13,6 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
     <script src="./js/url.js" charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -46,6 +47,7 @@
 </script>
 <script type="text/html" id="bar">
     <button class="layui-btn layui-btn-xs" lay-event="edit" >编辑</button>
+    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
 </script>
 <script>
     layui.use(['element','layer','table','form', 'layedit', 'laydate'], function(){
@@ -78,8 +80,32 @@
             // } else
             if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
-                data.account=encodeURI(data.account);
-                admin_edit('修改管理员','admin-edit.html?adminId='+data.id+"&adminAccount="+data.account+"&adminPassword="+data.password,500,350);
+                if(data.cityId!=null)
+                    admin_edit('修改管理员','admin-edit.html?adminId='+data.id+"&adminAccount="+encodeURI(data.account)+
+                        "&adminPassword="+data.password+"&address="+encodeURI(data.cityId),
+                        500,450);
+                else
+                    admin_edit('修改管理员','admin-edit.html?adminId='+data.id+"&adminAccount="+encodeURI(data.account)+
+                        "&adminPassword="+data.password,
+                        500,450);
+            }  else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        type: "POST",
+                        url:  remoteURL+"/Admin/deleteById",
+                        data: {id:data.id},
+                        dataType: "json",
+                        success: function(res){
+                            if(res==1) {
+                                obj.del();
+                                layer.msg('删除成功');
+                            }
+                            else
+                                layer.msg('删除失败');
+                        }
+                    });
+                    layer.close(index);
+                });
             }
         });
 

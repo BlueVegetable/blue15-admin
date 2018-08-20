@@ -40,7 +40,9 @@
                 '<tr>'+
                     '<td>'+data.id+'</td>'+
                     '<td>'+data.city+'</td>'+
-                    '<td>暂无操作</td>'
+                    "<td><button areaId=\""+data.id+"\" title=\"删除\" href=\"javascript:;\" onclick=\"area_del(this,'1')\" style=\"text-decoration:none\">" +
+                    "<i class=\"layui-icon\">&#xe640;</i></button></td>"+
+                    // '<td>暂无操作</td>'
                 '</tr>';
             return string;
         }
@@ -99,6 +101,29 @@
     /*用户-添加*/
     function area_add(title,url,w,h){
         x_admin_show(title,url,w,h);
+    }
+    /*删除*/
+    function area_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            var id=obj.getAttribute("areaId");
+            //发异步删除数据
+            $.ajax({
+                type: "POST",
+                url:  remoteURL+"/Area/deleteById",
+                data: {id:id},
+                success: function(data){
+                    if(data==1) {
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!',{icon:1,time:1000});
+                    } else {
+                        layer.msg("删除失败");
+                    }
+                } ,
+                error: function (data) {
+                    layer.msg("删除失败");
+                }
+            });
+        });
     }
 </script>
 </body>

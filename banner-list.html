@@ -37,8 +37,9 @@
                         success: function(data){
                             var tbody=document.getElementById("x-img");
                             tbody.innerHTML="";
-                            for(var i=0;i<data.length;i++)
-                                tbody.innerHTML+=show(data[i],i);
+                            for(var i=0;i<data.length;i++) {
+                                tbody.innerHTML += show(data[i], i);
+                            }
                         }
                     });
                 } else {
@@ -50,8 +51,9 @@
                         success: function(data){
                             var tbody=document.getElementById("x-img");
                             tbody.innerHTML="";
-                            for(var i=0;i<data.length;i++)
-                                tbody.innerHTML+=show(data[i],i);
+                            for(var i=0;i<data.length;i++) {
+                                tbody.innerHTML += show(data[i], i);
+                            }
                         }
                     });
                     $("#add-btn").hide();
@@ -59,6 +61,7 @@
             });
             function show(data,number){
                 var string="";
+                var city="";
                 string+="<tr>"+
                     "<td>"+data.id+"</td>"+
                     "<td>"+"<img  src="+data.address+" width='100' alt=''>点击图片试试"+"</td>";
@@ -66,7 +69,21 @@
                     string+="<td><span class='myspan' state='1' location='"+number+"'>显示</span></td>";
                 else
                     string+="<td><span class='myspan' state='0' location='"+number+"'>未显示</span></td>";
-                string+="<td>"+data.cityId+"</td>";
+
+                $.ajax({
+                    type: "POST",
+                    url:  remoteURL+"/Area/selectById",
+                    data: {cityId:data.cityId},
+                    async:false,
+                    success: function(data){
+                        city=data;
+                    },
+                    error: function (data) {
+                        city="";
+                    }
+                });
+
+                string+="<td>"+city+"</td>";
                 string+= "<td>" +
                 "<button banaId='"+data.id+"' location='"+number+"' class='layui-btn  layui-btn-mini layui-btn-mini' onclick='change(this)' >更改显示状态</button>"+
                 "<button banaId='"+data.id+"' class='layui-btn layui-btn-danger layui-btn-mini' onclick='dele(this)'>删除</button>"+
@@ -157,7 +174,7 @@
                         <th>ID</th>
                         <th>缩略图</th>
                         <th>显示状态</th>
-                        <th>所在地区Id</th>
+                        <th>所在地区</th>
                         <th>操作</th>
                     </tr>
                 </thead>

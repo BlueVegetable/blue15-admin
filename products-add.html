@@ -368,7 +368,7 @@
             ,auto: true
             ,multiple:true
             ,accept:'image'
-            ,size:1024000
+            ,size:1024
             ,exts:'png|jpg|bmp|jpeg|gif'
             // ,multiple: true
             // ,bindAction: '#submit'
@@ -385,7 +385,8 @@
                 // alert(res.data);
             }
             ,error: function(res,data){
-                layer.alert(res+":"+data);
+                layer.closeAll('loading'); //关闭loading
+                layer.msg("上传图片过大");
             }
         });
 

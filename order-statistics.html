@@ -98,12 +98,12 @@
             number1.push(res[0][i]);
         }
 
-        for(var i=0;i<12;i++) {
-            name2.push((i+1)+"月");
+        for(var i=1;i<=12;i++) {
+            name2.push(i+"月");
             if(!res[1][i])
                 res[1][i]=0;
         }
-        for(var i=0;i<12;i++) {
+        for(var i=1;i<=12;i++) {
             number3.push(res[1][i]);
         }
         options1.series[0].data = number1;
@@ -155,12 +155,12 @@
                     $.post(url2,{ cityId:cityId , createTime:date_string })
                 ]).then(res => {
                     var name2 = [],number3=[];
-                    for(var i=0;i<12;i++) {
+                    for(var i=1;i<=12;i++) {
                         if(!res[0][i])
                             res[0][i]=0;
-                        name2.push((i+1)+"月");
+                        name2.push(i+"月");
                     }
-                    for(var i=0;i<12;i++) {
+                    for(var i=1;i<=12;i++) {
                         number3.push(res[0][i]);
                     }
                     options2.series[0].data=number3;

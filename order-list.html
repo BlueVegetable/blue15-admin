@@ -42,11 +42,11 @@
                     <div class="layui-input-inline">
                         <select name="state" id="stateReload" lay-search="">
                             <option value="">搜索订单状态</option>
-                            <option value="1">待支付</option>
+                            <option value="1">待付款</option>
                             <option value="2">待发货</option>
                             <option value="3">待收货</option>
-                            <option value="4">完结</option>
                             <option value="5">失效</option>
+                            <option value="7">完结</option>
                         </select>
                     </div>
                 </div>
@@ -67,7 +67,9 @@
         </script>
         <script type="text/html" id="bar">
             <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看详情</a>
+            {{#  if(d.state==1||d.state==2){ }}
             <a class="layui-btn layui-btn layui-btn-xs" lay-event="edit-state">发货</a>
+            {{#  } }}
             <!--<button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>-->
         </script>
         <script src="./js/function.js" charset="utf-8"></script>
@@ -129,7 +131,25 @@
                         //     layer.close(index);
                         // });
                     } else if(obj.event === "edit-state") {
-                        order_state_edit('修改订单状态','order-state-edit.html?id='+data.id+"&state="+data.state+"&cityId="+cityId,400,375);
+                        // order_state_edit('修改订单状态','order-state-edit.html?id='+data.id+"&state="+data.state+"&cityId="+cityId,400,375);
+                        $.ajax({
+                            type: "POST",
+                            url:  remoteURL+"/OrderForm/updateState",
+                            data: {id:data.id,state:3},
+                            success: function(data){
+                                if(data==1) {
+                                    table.reload('order-list', {
+                                        url: remoteURL+"/OrderForm/selectAll"
+                                        ,where: {
+                                            cityId:cityId
+                                        }
+                                    });
+                                    layer.alert("修改成功");
+                                } else {
+                                    layer.alert("修改失败");
+                                }
+                            }
+                        });
                     }
                 });
 

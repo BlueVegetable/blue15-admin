@@ -13,6 +13,11 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
     <script src="./js/url.js" charset="utf-8"></script>
+    <script src="./js/function.js" charset="utf-8"></script>
+    <script>
+        var cityId=getParameter(window.location.href,"cityId");
+    </script>
+
 </head>
 <body>
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
@@ -72,7 +77,7 @@
 
         table.render({
             elem: '#consult-list'
-            ,url:remoteURL+"/Goods/selectAll"
+            ,url:remoteURL+"/Goods/selectAll?cityId="+cityId
             ,page:true
             ,cols: [[
                 // {field:'id', width:100, title: '商品ID',align:"center", sort: true, templet:function (data) {

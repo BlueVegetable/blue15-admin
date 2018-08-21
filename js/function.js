@@ -24,10 +24,10 @@ function getParameter(href,key) {
 }
 function getOrderState(state) {
     switch(state) {
-        case 1:return "待支付";
+        case 1:return "待付款";
         case 2:return "待发货";
         case 3:return "待收货";
-        case 4:return "完结";
-        default:return "失效";
+        case 5:return "失效";
+        case 7:return "完结"
     }
 }

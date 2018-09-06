@@ -14,8 +14,16 @@
     <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
     <script src="./js/url.js" charset="utf-8"></script>
     <script src="./js/function.js" charset="utf-8"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
         var cityId=getParameter(window.location.href,"cityId");
+        $(document).ready(function () {
+            if(cityId=="") {
+            } else {
+                $("#addSmallType").hide();
+                $("#deleteSmallType").hide();
+            }
+        });
     </script>
 
 </head>
@@ -47,9 +55,15 @@
             </div>
         </div>
         <div class="layui-inline">
-            <div class="layui-input-inline">
-                <button class="layui-btn" data-type="reload" id="select"><i class="layui-icon">&#xe615;</i></button>
-            </div>
+            <button class="layui-btn" data-type="reload" id="select"><i class="layui-icon">&#xe615;</i></button>
+        </div>
+        <div class="layui-inline" id="addSmallType">
+            <button class="layui-btn layui-btn-normal"
+                    onclick="SmallType_add('添加二级类','./smallType-add.html',500,500)">添加二级类</button>
+        </div>
+        <div class="layui-inline" id="deleteSmallType">
+            <button class="layui-btn layui-btn-danger"
+                    onclick="SmallType_add('删除二级类','./smallType-delete.html',500,520)">删除二级类</button>
         </div>
     </div>
 </div>
@@ -65,8 +79,10 @@
 </script>
 <script type="text/html" id="bar">
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="detail">商品详情</a>
-    <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit" >修改商品状态</button>
-    <button class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit-all" >修改商品详情</button>
+    {{#  if(cityId!=""){ }}
+    <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit" >修改状态</button>
+    <button class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit-all" >修改详情</button>
+    {{#  } }}
     <!--<button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>-->
 </script>
 <script>
@@ -80,21 +96,15 @@
             ,url:remoteURL+"/Goods/selectAll?cityId="+cityId
             ,page:true
             ,cols: [[
-                // {field:'id', width:100, title: '商品ID',align:"center", sort: true, templet:function (data) {
-                //         console.log((data.list[0]));
-                //         // return data.list[0].goodsId;
-                //         return "1";
+                // {title:'id',width:25,align:'center',templet:function (data) {
+                //         console.log(data);
+                //         if(data.list.length>0)
+                //             return data.list[0].goodsId;
+                //         else
+                //             return "商品存在问题，无法查看详情和修改商品";
                 //     }
                 // }
-                {title:'id',width:25,align:'center',templet:function (data) {
-                        console.log(data);
-                        if(data.list.length>0)
-                            return data.list[0].goodsId;
-                        else
-                            return "商品存在问题，无法查看详情和修改商品";
-                    }
-                }
-                ,{field:'name', width:150, title: '商品名称',align:"center"}
+                {field:'name', title: '商品名称',align:"center",width:250}
                 ,{field:'state', title: '商品状态', templet:function(data){
                         switch(data.state) {
                             case 1:return "上架";break;
@@ -106,7 +116,10 @@
                     }
                 }
                 ,{field:'brand', title: '品牌'}
-                ,{width:400, align:'center', toolbar: '#bar',title:'操作'}
+                ,{field:"factory",title:"工厂"}
+                ,{field:'storage', title: '储存方式'}
+                ,{field:"shelfLife",title:"保质期"}
+                ,{width:250,align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
         });
@@ -120,7 +133,7 @@
             var data = obj.data;
             if(obj.event === 'detail'){
                 // layer.msg('ID：'+ data.list[0].id + ' 的查看操作');
-                product_show('查看商品详情','product-detail.html?goodsId='+data.list[0].goodsId,800,500);
+                product_show('查看商品详情','product-detail2.html?goodsId='+data.list[0].goodsId,550,500);
             } else if(obj.event === 'edit'){
                 // layer.alert('编辑行：<br>'+ JSON.stringify(data));
                 var name=$("#nameReload").val();
@@ -168,6 +181,9 @@
         x_admin_show(title,url,w,h);
     }
     function product_edit_all(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
+    function SmallType_add(title, url, w, h) {
         x_admin_show(title,url,w,h);
     }
 </script>

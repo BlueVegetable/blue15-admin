@@ -82,6 +82,7 @@ function init(id) {
 		document.getElementById("factory").innerHTML=data.factory;
 		document.getElementById("shelfLife").innerHTML=data.shelfLife;
 		document.getElementById("remark").innerHTML=data.remarks;
+        document.getElementById("num").innerHTML=data.listPrice[0].num+"   "+data.listPrice[0].unit;
 
 		var state=document.getElementById("state");
 		switch (data.state) {
@@ -108,9 +109,10 @@ function init(id) {
         if(price_list!=null) {
             for(var i=0;i<price_list.length;i++) {
                 price_pattern.innerHTML+='<li><button style="cursor:pointer;" class="btn" price="'+
-                    price_list[i].price+'元/' +
-                    price_list[i].unit+'" onclick="button_click(this)">'+
-                    price_list[i].price+'</button></li>';
+                    price_list[i].price+'"' +
+                    'unit="'+price_list[i].unit+'"' +
+                    'num="'+price_list[i].num+'" onclick="button_click(this)">'+
+                    price_list[i].weight+'</button></li>';
             }
         }
         if(document.getElementsByClassName("btn").length>0)
@@ -118,7 +120,8 @@ function init(id) {
 	}
 }
 function button_click(button) {
-    document.getElementById("price").innerHTML="￥"+button.getAttribute("price");
+    document.getElementById("price").innerHTML="￥"+button.getAttribute("price")+"/"+button.getAttribute("unit");
+    document.getElementById("num").innerHTML=button.getAttribute("num")+"   "+button.getAttribute("unit");
 }
 </script>
     <style type="text/css" >
@@ -172,6 +175,7 @@ function button_click(button) {
         <p class="zhengchang">城市：<samp id="city">浙江杭州</samp></p>
         <p class="zhengchang">状态：<samp id="state">上架</samp></p>
         <p class="zhengchang">商标：<samp id="brand">瘀斑牌</samp></p>
+        <p class="zhengchang">库存：<samp id="num">400</samp></p>
         <p class="zhengchang">保质期：<samp id="shelfLife">30天</samp></p>
         <p class="zhengchang">储存方式：<samp id="storage">老母鸡</samp></p>
         <p class="zhengchang">生产工厂：<samp id="factory"></samp></p>

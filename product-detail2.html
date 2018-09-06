@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>详情页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="./layui/layui.js" charset="utf-8"></script>
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/function.js"></script>
+    <script src="./js/url.js" charset="utf-8"></script>
+    <script>
+        window.onload=function () {
+            var goodsId=getParameter(window.location.href,"goodsId");
+            init(goodsId);
+        };
+        function init(goodsId) {
+            $.ajax({
+                type: "POST",
+                url:  remoteURL+"/Goods/selectById",
+                data: {id:goodsId},
+                dataType: "json",
+                success: function(data){
+                    console.log(data);
+                    $("#name").html(data.name);
+                    document.getElementById("image").innerHTML="";
+                    for (var i = 0; i < data.list.length; i++){
+                        $("#image").append("<img src='"+data.list[i].address+"' />");
+                    }
+                    initCarousel();
+                    initCity(data.cityId);
+                    initSpecification(data.listPrice);
+                    $("#state").html(getProductState(data.state));
+                    $("#brand").html(data.brand);
+                    $("#storage").html(data.storage);
+                    $("#remarks").html(data.remarks);
+                    $("#shelfLife").html(data.shelfLife);
+                    $("#price").html(data.listPrice[0].price+"元/"+data.listPrice[0].unit);
+                    $("#num").html(data.listPrice[0].num + data.listPrice[0].unit);
+                }
+            });
+        }
+        function initCarousel() {
+            layui.use('carousel', function(){
+                var carousel = layui.carousel;
+                //建造实例
+                carousel.render({
+                    elem: '#test1'
+                    ,width: '90%' //设置容器宽度
+                    ,arrow: 'always' //始终显示箭头
+                    // ,anim: 'updown' //切换动画方式
+                });
+            });
+        }
+        function getProductState(state) {
+            switch (state) {
+                default: return "上架";break;
+                case 2: return "推荐";break;
+                case 3: return "促销";break;
+                case 0: return "下架";break;
+            }
+        }
+        function initCity(cityId) {
+            //处理地区
+            $.ajax({
+                type: "POST",
+                url: remoteURL + "/Area/selectById",
+                data: {cityId: cityId},
+                success: function (data) {
+                    $("#city").html(data);
+                }
+            });
+        }
+        function initSpecification(list) {
+            $("#specification").html("");
+            for (var i = 0; i < list.length; i++) {
+                if(i == list.length-1) {
+                    $("#specification").append("<button class='mybutton' " +
+                        "price=\""+list[i].price+"\" unit=\""+list[i].unit+"\" num=\""+list[i].num+"\" " +
+                        "onclick=\"button_click(this)\"> " +
+                        list[i].weight +
+                        "</button>")
+                } else {
+                    $("#specification").append("<button class='mybutton' " +
+                        "price=\""+list[i].price+"\" unit=\""+list[i].unit+"\" num=\""+list[i].num+"\" " +
+                        "onclick=\"button_click(this)\"> " +
+                        list[i].weight +
+                        "</button><br><br>")
+                }
+            }
+        }
+        function button_click(button) {
+            var price = button.getAttribute("price");
+            var unit = button.getAttribute("unit");
+            var num = button.getAttribute("num");
+            $("#price").html(price+"元/"+unit);
+            $("#num").html(num + unit);
+            var buttons = document.getElementsByClassName("mybutton");
+            for(var i=0;i<buttons.length;i++) {
+                buttons[i].style.background="#ffffff";
+            }
+            button.style.background="#7fc8ed";
+        }
+    </script>
+    <style type="text/css">
+        .mybutton{
+            cursor:pointer;
+            border-style:solid;
+            border-width:1px;
+            border-color: #000;
+            background:white;
+        }
+    </style>
+</head>
+<body>
+<div style="padding: 20px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15" style="text-align: center;">
+        <div class="layui-col-md6">
+            <div class="layui-card" style="width:500px;">
+                <div class="layui-card-header">
+                    <h1 style="font-size: 25px;font-weight: 800;" id="name">商品名称</h1>
+                </div>
+                <div class="layui-carousel" id="test1" style="left: 5%;">
+                    <div carousel-item id="image">
+                        //无数据
+                    </div>
+                </div>
+                <table class="layui-table" id="mytable" style="height:auto;word-wrap:break-word;word-break:break-all;">
+                    <tbody>
+                    <tr>
+                        <td style="width:100px;">价格</td>
+                        <td id="price">132元/件</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">规格</td>
+                        <td id="specification">
+                            <button class="mybutton"
+                                    price="60.00" unit="斤" num="1000"
+                                    onclick="button_click(this)">
+                                哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">城市</td>
+                        <td id="city">北京</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">状态</td>
+                        <td id="state">上架</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">商标</td>
+                        <td id="brand">无</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">库存</td>
+                        <td id="num">10000</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">保存期</td>
+                        <td id="shelfLife">1000天</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">储存方式</td>
+                        <td id="storage">-5℃</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">生产工厂</td>
+                        <td id="factory">海湾</td>
+                    </tr>
+                    <tr>
+                        <td style="width:100px;">备注</td>
+                        <td id="remarks">无哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈呵呵呵呵呵呵呵</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#test1'
+            ,width: '90%' //设置容器宽度
+            ,arrow: 'always' //始终显示箭头
+            // ,anim: 'updown' //切换动画方式
+        });
+    });
+</script>
+</html>

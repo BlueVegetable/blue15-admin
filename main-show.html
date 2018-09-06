@@ -25,6 +25,7 @@
                     document.getElementById("order").setAttribute("_href","./order-list.html?cityId="+cityId);
                     document.getElementById("products-add").setAttribute("_href","./products-add.html?cityId="+cityId);
                     document.getElementById("order-statistics").setAttribute("_href","./order-statistics.html?cityId="+cityId);
+                    document.getElementById("products-list").setAttribute("_href","./products-list.html?cityId="+cityId);
                 } else {
                     $("#admin-controller").show();
                     $("#city-controller").show();
@@ -104,7 +105,7 @@
                             <dl class="layui-nav-child">
                                 <dd class="">
                                 <dd class="">
-                                    <a href="javascript:;" _href="./products-list.html">
+                                    <a id="products-list" href="javascript:;" _href="./products-list.html">
                                         <cite>产品列表</cite>
                                     </a>
                                 </dd>

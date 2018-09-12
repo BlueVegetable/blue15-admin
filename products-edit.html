@@ -392,12 +392,17 @@
         var units=document.getElementsByName("unit");
         for(var i=0;i<prices.length;i++) {
             var object=new Object();
-            object.id=priceIds[i].value;
+            if(priceIds[i].getAttribute("new")!="true") {
+                object.id = priceIds[i].value;
+                object.goodsId=goodsId;
+            } else {
+                object.id="";
+                object.goodsId="";
+            }
             object.num=nums[i].value;
             object.unit=units[i].value;
             object.price=prices[i].value;
             object.weight=weights[i].value;
-            object.goodsId=goodsId;
             list.push(object);
         }
         data.listPrice=list;
@@ -423,11 +428,12 @@
         var c = y.insertCell(2);
         var d = y.insertCell(3);
         var e = y.insertCell(4);
+        var f = y.insertCell(5);
 
-        a.innerHTML="<td><label class=\"layui-form-label\">"+"规格"+number+"</label></label></td>";
+        a.innerHTML="<td><label class=\"layui-form-label\">"+"规格"+"</label></label></td>";
         b.innerHTML="<td><div class=\"layui-input-inline\">"+
             "<input type=\"text\" name=\"price\" value='"+data.price+"' placeholder=\"请输入价格\" lay-verify=\"price\" autocomplete=\"off\" class=\"layui-input\">"+
-            "<input type='hidden' name='priceId' value='"+data.id+"'"+
+            "<input type='hidden' name='priceId' value='"+data.id+"'>"+
             "</div></td>";
         c.innerHTML="<td><div class=\"layui-input-inline\">" +
             "<input type=\"text\" name=\"num\" value='"+data.num+"' placeholder=\"请输入数量\" lay-verify=\"num\" autocomplete=\"off\" class=\"layui-input\">" +
@@ -438,6 +444,44 @@
         e.innerHTML="<td><div class=\"layui-input-inline\">" +
             "<input type=\"text\" name=\"unit\" value='"+data.unit+"' placeholder=\"请输入单位\" lay-verify=\"unit\" autocomplete=\"off\" class=\"layui-input\">" +
             "</div></td>";
+        f.innerHTML="<td>"+
+            "<a class=\"layui-btn layui-btn-sm layui-btn-normal\" onclick=\"addRow2()\">增加</a>"+
+            "</td>";
+    }
+    function addRow2() {
+        var priceTable = document.getElementById("price-list");
+        var y = priceTable.insertRow(-1);
+        var addNum = $("#price-list").find("tr").length-1;
+        y.id ="trone_" + addNum;
+
+        var a = y.insertCell(0);
+        var b = y.insertCell(1);
+        var c = y.insertCell(2);
+        var d = y.insertCell(3);
+        var e = y.insertCell(4);
+        var f = y.insertCell(5);
+
+        a.innerHTML="<td><label class=\"layui-form-label\">"+"规格"+"</label></label></td>";
+        b.innerHTML="<td><div class=\"layui-input-inline\">"+
+            "<input type=\"text\" name=\"price\" placeholder=\"请输入价格\" lay-verify=\"price\" new='true' autocomplete=\"off\" class=\"layui-input\">"+
+            "<input type='hidden' name='priceId' value='"+1+"' new='true'>"+
+            "</div></td>";
+        c.innerHTML="<td><div class=\"layui-input-inline\">" +
+            "<input type=\"text\" name=\"num\" placeholder=\"请输入数量\" lay-verify=\"num\" new='true' autocomplete=\"off\" class=\"layui-input\">" +
+            "</div></td>";
+        d.innerHTML="<td><div class=\"layui-input-inline\">" +
+            "<input type=\"text\" name=\"weight\" placeholder=\"请输入重量\" lay-verify=\"weight\" new='true' autocomplete=\"off\" class=\"layui-input\">" +
+            "</div></td>";
+        e.innerHTML="<td><div class=\"layui-input-inline\">" +
+            "<input type=\"text\" name=\"unit\" placeholder=\"请输入单位\" lay-verify=\"unit\" new='true' autocomplete=\"off\" class=\"layui-input\">" +
+            "</div></td>";
+        f.innerHTML="<td>"+
+            "<a class=\"layui-btn layui-btn-sm layui-btn-normal\" onclick=\"addRow2()\">增加</a>"+
+            "<a class=\"layui-btn layui-btn-sm layui-btn-danger\" onclick=\"deleteRow('" +y.id+"');\">删除</a>"+
+            "</td>";
+    }
+    function deleteRow(rowId){
+        $("tr[id="+rowId+"]").remove();
     }
 </script>
 </body>

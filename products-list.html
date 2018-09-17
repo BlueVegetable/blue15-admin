@@ -82,6 +82,7 @@
     {{#  if(cityId!=""){ }}
     <button class="layui-btn layui-btn-xs layui-btn-primary" lay-event="edit" >修改状态</button>
     <button class="layui-btn layui-btn-xs layui-btn-warm" lay-event="edit-all" >修改详情</button>
+    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
     {{#  } }}
     <!--<button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>-->
 </script>
@@ -119,7 +120,7 @@
                 ,{field:"factory",title:"工厂"}
                 ,{field:'storage', title: '储存方式'}
                 ,{field:"shelfLife",title:"保质期"}
-                ,{width:250,align:'center', toolbar: '#bar',title:'操作'}
+                ,{width:300,align:'center', toolbar: '#bar',title:'操作'}
             ]]
             ,limits:['10']
         });
@@ -141,6 +142,24 @@
                     "&cityId="+cityId+"&name="+encodeURI(name),320,280);
             } else if(obj.event === 'edit-all') {
                 product_edit_all('修改商品详情','products-edit.html?goodsId='+data.list[0].goodsId,1000,480);
+            } else if(obj.event === 'del') {
+                layer.confirm('真的删除行么', function(index){
+                    $.ajax({
+                        type: "POST",
+                        url:  remoteURL+"/Goods/deleteById",
+                        data: {id:data.list[0].goodsId},
+                        dataType: "json",
+                        success: function(res){
+                            if(res==1) {
+                                obj.del();
+                                layer.msg('删除成功');
+                            }
+                            else
+                                layer.msg('删除失败');
+                        }
+                    });
+                    layer.close(index);
+                });
             }
         });
 

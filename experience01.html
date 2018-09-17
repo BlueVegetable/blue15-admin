@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>试验品</title>
+    <style>
+        .imgBox {
+            height: 200px;
+            width: 200px;
+            background: url("http://img3.imgtn.bdimg.com/it/u=3033257042,4077893909&fm=27&gp=0.jpg");
+            background-size: 100%;
+            position: relative;
+            margin: 0 auto;
+            background-repeat: no-repeat;
+        }
+
+        .imgIcon {
+            width: 20px;
+            height: 20px;
+            background: url('http://pic.qiantucdn.com/58pic/14/87/50/58PIC9U58PICwyA_1024.jpg');
+            background-size: 100% 100%;
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="imgBox">
+    <div class="imgIcon" onclick="close()">
+    </div>
+</div>
+
+<script>
+    var icon = document.getElementsByClassName('icon')[0];
+
+    icon.addEventListener('click', function () {
+        alert("关闭事件")
+    })
+
+</script>
+</body>
+</html>

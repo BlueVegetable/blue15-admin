@@ -16,10 +16,10 @@
 
     <style type="text/css">
         .imgBox {
-            height: 200px;
-            width: 200px;
-            background: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1537789654&di=749c7ea0bb47f86009d6ae0664201870&imgtype=jpg&er=1&src=http%3A%2F%2Fimages.51bi.com%2Fopt%2Fsiteimg%2Fpb%2F20130821%2F9afac0649fc001981439b5ee190a341a.jpeg");
-            background-size: 100%;
+            height: 150px;
+            width: 150px;
+            background: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2454388039,3110293780&fm=26&gp=0.jpg");
+            background-size: 100% 100%;
             position: relative;
             background-repeat: no-repeat;
         }
@@ -119,10 +119,9 @@
     <fieldset class="layui-elem-field">
         <legend>封面图片</legend>
         <div class="layui-field-box" id="cover-image-show">
-            <div class="imgBox">
-                <div class="imgIcon" onclick="alert(1)">
-                </div>
-            </div>
+            <!--<div class="imgBox" style="background:url('http://dongpinhui.xyz/91d47f8cfd31407e9439d7134fb79f82');background-size: 100% 100%;display: inline-block;">-->
+                <!--<div class="imgIcon" onclick="deleteCoverImage()"></div>-->
+            <!--</div>-->
         </div>
     </fieldset>
 
@@ -275,7 +274,10 @@
                 console.log(res);
                 layer.closeAll('loading'); //关闭loading
                 document.getElementById("cover-image-show").innerHTML=
-                    "<img src=\""+res.data+"\" height=\"150px\" />";
+                    "<div id=\"coverImageElement\" class=\"imgBox\" style=\"background: url(\'"+res.data+"\');" +
+                    "background-size: 100% 100%;\">" +
+                    "<div class=\"imgIcon\" onclick=\"deleteCoverImage()\">" +
+                    "</div></div>";
                 document.getElementById("cover-image-value").value=res.data;
                 // alert(res.data);
             }
@@ -447,9 +449,11 @@
             ,done: function(res){
                 console.log(res);
                 layer.closeAll('loading'); //关闭loading
-                document.getElementById("image-show").innerHTML+=
-                    "<img src=\""+res.data+"\" height=\"150px\" />";
-                document.getElementById("picture-address").innerHTML+="<input type=\"hidden\" name=\"picture\" value=\""+res.data+"\" />";
+                var id = initString(res.data);
+                document.getElementById("image-show").innerHTML+="&emsp;"+getImageElement(res.data,id);
+                    // "<img src=\""+res.data+"\" height=\"150px\" />";
+                document.getElementById("picture-address").innerHTML+=
+                    "<input id='imageElementName"+id+"' type=\"hidden\" name=\"picture\" value=\""+res.data+"\" />";
                 // alert(res.data);
             }
             ,error: function(res,data){
@@ -542,14 +546,21 @@
         $("tr[id="+rowId+"]").remove();
     }
     function getImageElement(url,id) {
-        var string = "<div id='imageElement"+id+"' class=\"imgBox\" style='background: url(\""+url+"\");'>\n" +
-            "<div class=\"imgIcon\" onclick=\"alert("+id+")\">" +
-            "</div>" +
-            "</div>";
+        var string = "<div id='imageElement"+id+"' class=\"imgBox\" style='background: url(\""+url+"\"); background-size: 100% 100%;display: inline-block'>\n" +
+            "<div class=\"imgIcon\" onclick=\"deleteImageElement(\'"+id+"\')\"></div></div>";
         return string;
     }
     function deleteImageElement(id) {
         $("#imageElement"+id).remove();
+        $("#imageElementName"+id).remove();
+    }
+    function deleteCoverImage() {
+        $("#coverImageElement").remove();
+        $("#cover-image-value").val("");
+    }
+    function initString(string) {
+        var newString = string.substring(string.lastIndexOf("/")+1);
+        return newString;
     }
 </script>
 </body>

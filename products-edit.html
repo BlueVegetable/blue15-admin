@@ -45,9 +45,12 @@
         function initPicture(list) {
             var image_show=document.getElementById("image-show");
             image_show.innerHTML="";
-            for(var i=0;i<list.length;i++) {
+            $("#cover-image-show").html("<img src=\""+list[0].address+"\" width=\"100px\" height=\"100px\" />");
+            for(var i=1;i<list.length;i++) {
                 var data=list[i];
-                image_show.innerHTML+="<img src=\""+data.address+"\" width=\"100px\" height=\"100px\" />";
+                var id = initString(data.address);
+                var element = getImageElement(data.address,id);
+                image_show.innerHTML+="&emsp;"+element;
             }
         }
         function initPrice(list) {
@@ -87,6 +90,27 @@
             });
         }
     </script>
+    <style type="text/css">
+        .imgBox {
+            height: 150px;
+            width: 150px;
+            background: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2454388039,3110293780&fm=26&gp=0.jpg");
+            background-size: 100% 100%;
+            position: relative;
+            background-repeat: no-repeat;
+        }
+
+        .imgIcon {
+            width: 20px;
+            height: 20px;
+            background: url('./img/icon.png');
+            background-size: 100% 100%;
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 <div class="x-nav">
@@ -146,6 +170,29 @@
             </div>
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">请上传封面</label>
+            <div class="layui-input-inline">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn layui-btn-normal" id="cover-image-upload">
+                        <i class="layui-icon">&#xe67c;</i>上传商品封面
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <fieldset class="layui-elem-field">
+        <legend>封面图片</legend>
+        <div class="layui-field-box" id="cover-image-show">
+            <!--<div class="imgBox" style="background:url('http://dongpinhui.xyz/91d47f8cfd31407e9439d7134fb79f82');background-size: 100% 100%;display: inline-block;">-->
+            <!--<div class="imgIcon" onclick="deleteCoverImage()"></div>-->
+            <!--</div>-->
+        </div>
+    </fieldset>
+
 
     <fieldset class="layui-elem-field">
         <legend>商品图片</legend>
@@ -482,6 +529,23 @@
     }
     function deleteRow(rowId){
         $("tr[id="+rowId+"]").remove();
+    }
+    function getImageElement(url,id) {
+        var string = "<div id='imageElement"+id+"' class=\"imgBox\" style='background: url(\""+url+"\"); background-size: 100% 100%;display: inline-block'>\n" +
+            "<div class=\"imgIcon\" onclick=\"deleteImageElement(\'"+id+"\')\"></div></div>";
+        return string;
+    }
+    function deleteImageElement(id) {
+        $("#imageElement"+id).remove();
+        $("#imageElementName"+id).remove();
+    }
+    function deleteCoverImage() {
+        $("#coverImageElement").remove();
+        $("#cover-image-value").val("");
+    }
+    function initString(string) {
+        var newString = string.substring(string.lastIndexOf("/")+1);
+        return newString;
     }
 </script>
 </body>

@@ -43,7 +43,7 @@
                     $("#remarks").html(data.remarks);
                     $("#shelfLife").html(data.shelfLife);
                     $("#price").html(data.listPrice[0].price+"元/"+data.listPrice[0].unit);
-                    $("#num").html(data.listPrice[0].num + data.listPrice[0].unit);
+                    $("#num").html(data.listPrice[0].num +" (" + data.listPrice[0].unit + ")");
                 }
             });
         }
